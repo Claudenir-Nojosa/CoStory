@@ -25,13 +25,20 @@ const Messages: FC<MessagesProps> = ({ initialMessages, roomId }) => {
     channel.bind("incoming-message", handleIncomingMessage);
 
     return () => {
-      channel.unbind("incoming-message", handleIncomingMessage); 
+      channel.unbind("incoming-message", handleIncomingMessage);
       pusherClient.unsubscribe(roomId);
     };
   }, [roomId]);
 
+  const combinedMessages = [
+    ...initialMessages.map((message) => message.text),
+    ...incomingMessages,
+  ].join(" ");
   return (
     <div>
+      <div>
+        <p>{combinedMessages}</p>
+      </div>
       {initialMessages.map((message) => (
         <p key={message.id}>{message.text}</p>
       ))}
