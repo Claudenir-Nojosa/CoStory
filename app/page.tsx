@@ -1,11 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 const Page: FC = () => {
-  const { data: session, status } = useSession();
   let roomIdInput = "";
   const router = useRouter();
 
@@ -21,7 +19,6 @@ const Page: FC = () => {
 
   return (
     <div>
-      {session?.user?.name}
       <button onClick={createRoom}>Criar sala</button>
       <div className="flex gap-2">
         <input
