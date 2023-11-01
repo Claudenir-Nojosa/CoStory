@@ -1,6 +1,6 @@
 import MessageField from "@/components/message-field";
 import Messages from "@/components/messages";
-import { db } from "@/lib/db";
+import { db } from "@/lib/prismadb";
 
 interface PageProps {
   params: {

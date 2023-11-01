@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db } from "@/lib/prismadb";
 
 export async function GET() {
   const createdRoom = await db.chatRoom.create({

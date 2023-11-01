@@ -3,7 +3,7 @@ import { ThemeProviderProps } from "next-themes/dist/types";
 import React, { FC, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-interface ProvidersProps {
+export interface ProvidersProps {
   children: ReactNode;
   themeProps?: ThemeProviderProps;
 }
