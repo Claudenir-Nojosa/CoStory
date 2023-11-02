@@ -1,34 +1,14 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import { StoryForm } from "@/components/forms/createStory";
+import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
 import { FC } from "react";
 
 const Page: FC = () => {
-  let roomIdInput = "";
-  const router = useRouter();
-
-  const createRoom = async () => {
-    const res = await fetch("/api/rooms/create");
-    const roomId: string = await res.text();
-    router.push(`/room/${roomId}`);
-  };
-
-  const joinRoom = async (roomId: string) => {
-    router.push(`/room/${roomId}`);
-  };
-
   return (
-    <div>
-      <button onClick={createRoom}>Criar sala</button>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          onChange={({ target }) => (roomIdInput = target.value)}
-          className="border border-zinc-300 bg-transparent"
-        />
-        <button onClick={() => joinRoom(roomIdInput)}>Entrar na sala</button>
-      </div>
-    </div>
+    <section>
+      <MaxWidthWrapper className="mb-12 mt-14 sm:mt-15 flex flex-col justify-between text-center">
+        <StoryForm />
+      </MaxWidthWrapper>
+    </section>
   );
 };
 
