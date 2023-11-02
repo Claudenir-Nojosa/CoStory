@@ -6,6 +6,8 @@ import { AuthProvider } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import LeftSidebar from "@/components/shared/LeftSideBar";
 import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
+import { NavigationMenuDemo } from "@/components/shared/Navbar";
+import BottomBar from "@/components/shared/BottomBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,7 +34,13 @@ export default function RootLayout({
             >
               <div className="flex">
                 <LeftSidebar />
-                <MaxWidthWrapper>{children}</MaxWidthWrapper>
+                <div className="flex flex-col flex-1">
+                  <NavigationMenuDemo />
+                  <MaxWidthWrapper className="mb-12 mt-14 sm:mt-15 text-center">
+                    {children}
+                  </MaxWidthWrapper>
+                </div>
+                <BottomBar />
               </div>
             </ThemeProvider>
           </QueryProvider>

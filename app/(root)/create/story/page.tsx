@@ -1,7 +1,13 @@
-import React from "react";
+import { FC } from "react";
+import { StoryForm } from "@/components/forms/createStory";
 
-const CreateStory = () => {
-  return <div>CreateStory</div>;
+
+const CreateStory: FC = () => {
+  return (
+    <section>
+      <StoryForm />
+    </section>
+  );
 };
 
 export default CreateStory;

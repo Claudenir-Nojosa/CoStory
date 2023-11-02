@@ -1,27 +1,17 @@
 "use client";
 
+import { sidebarLinks } from "@/config/site";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { sidebarLinks } from "@/config/site";
-
-const LeftSidebar = () => {
-  const router = useRouter();
+function BottomBar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
-    <section className="custom-scrollbar leftsidebar">
-      <div className="flex w-full flex-1 flex-col gap-3 px-6">
-        <Link href="/">
-          <Image
-            src="/assets/logo.svg"
-            alt="Logo"
-            height={100}
-            width={100}
-            className="mb-7"
-          />
-        </Link>
+    <section className="bottombar">
+      <div className="bottombar_container">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
@@ -31,8 +21,8 @@ const LeftSidebar = () => {
             <Link
               href={link.route}
               key={link.label}
-              className={`leftsidebar_link ${
-                isActive && "bg-primary-foreground"
+              className={`bottombar_link ${
+                isActive && "bg-primary-foreground bg-opacity-50"
               }`}
             >
               <Image
@@ -41,14 +31,15 @@ const LeftSidebar = () => {
                 width={24}
                 height={24}
               />
-
-              <p className="text-light-1 max-lg:hidden">{link.label}</p>
+              <p className="text-subtle-medium text-light-1 max-sm:hidden">
+                {link.label.split(/\s+/)[0]}
+              </p>
             </Link>
           );
         })}
       </div>
     </section>
   );
-};
+}
 
-export default LeftSidebar;
+export default BottomBar;

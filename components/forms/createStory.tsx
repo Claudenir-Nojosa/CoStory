@@ -73,6 +73,7 @@ export const StoryForm = () => {
             <Button
               variant="outline"
               type="submit"
+              className="w-full"
             >
               Criar
             </Button>

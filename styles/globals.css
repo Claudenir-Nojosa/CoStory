@@ -64,6 +64,9 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+  .navbar {
+    @apply sticky top-0 right-0 z-20 flex justify-between overflow-auto border-r  py-3 px-8;
+  }
 
   .leftsidebar {
     @apply sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r pb-5 pt-28 max-md:hidden;
@@ -71,6 +74,18 @@
 
   .leftsidebar_link {
     @apply relative flex justify-start gap-4 rounded-lg p-4;
+  }
+
+  .bottombar {
+    @apply fixed bottom-0 z-10 w-full rounded-t-3xl p-4 backdrop-blur  border border-t-2 md:hidden;
+  }
+
+  .bottombar_container {
+    @apply flex items-center justify-between gap-3 ;
+  }
+
+  .bottombar_link {
+    @apply relative flex flex-col items-center gap-2 rounded-lg p-2 sm:flex-1 sm:px-2 sm:py-2.5;
   }
 }
 
