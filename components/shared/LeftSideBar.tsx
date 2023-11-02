@@ -12,7 +12,14 @@ const LeftSidebar = () => {
 
   return (
     <section className="custom-scrollbar leftsidebar">
-      <div className="flex w-full flex-1 flex-col gap-6 px-6">
+      <div className="flex w-full flex-1 flex-col gap-3 px-6">
+        <Image
+          src="/assets/logo.svg"
+          alt="Logo"
+          height={100}
+          width={100}
+          className="mb-7"
+        />
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
