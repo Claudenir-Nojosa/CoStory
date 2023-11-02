@@ -11,7 +11,9 @@ import { mergeAttributes } from "@tiptap/core";
 import Highlight from "@tiptap/extension-highlight";
 import * as Y from "yjs";
 import Collaboration from "@tiptap/extension-collaboration";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import { WebrtcProvider } from "y-webrtc";
+import { useSession } from "next-auth/react";
 
 const ydoc = new Y.Doc();
 
@@ -24,6 +26,9 @@ export default function Tiptap({
   content: string;
   onChange: any;
 }) {
+  const { data: session } = useSession();
+  const userName = session?.user.name;
+  console.log(userName);
   const editor = useEditor({
     extensions: [
       Color.configure({
@@ -67,6 +72,13 @@ export default function Tiptap({
       }),
       Collaboration.configure({
         document: ydoc,
+      }),
+      CollaborationCursor.configure({
+        provider,
+        user: {
+          name: userName,
+          color: "#f783ac",
+        },
       }),
     ],
     content,

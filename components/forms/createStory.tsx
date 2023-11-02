@@ -71,7 +71,6 @@ export const StoryForm = () => {
           />
           <div className="flex justify-center items-center">
             <Button
-              className="hover:text-zinc-400 w-full"
               variant="outline"
               type="submit"
             >
