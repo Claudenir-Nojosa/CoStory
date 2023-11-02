@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { sidebarLinks } from "@/config/site";
+import { sidebarLinks, siteConfig } from "@/config/site";
 
 const LeftSidebar = () => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const LeftSidebar = () => {
             className="mb-7"
           />
         </Link>
-        {sidebarLinks.map((link) => {
+        {siteConfig.sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;

@@ -1,6 +1,6 @@
 "use client";
 
-import { sidebarLinks } from "@/config/site";
+import { sidebarLinks, siteConfig } from "@/config/site";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ function BottomBar() {
   return (
     <section className="bottombar">
       <div className="bottombar_container">
-        {sidebarLinks.map((link) => {
+        {siteConfig.sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
