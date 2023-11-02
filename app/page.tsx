@@ -1,6 +1,7 @@
 import { StoryForm } from "@/components/forms/createStory";
 import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
 import { ToggleTheme } from "@/components/shared/toggleTheme";
+
 import { FC } from "react";
 
 const Page: FC = () => {

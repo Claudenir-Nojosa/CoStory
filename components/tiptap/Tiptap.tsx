@@ -14,10 +14,15 @@ import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import { WebrtcProvider } from "y-webrtc";
 import { useSession } from "next-auth/react";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import Image from "next/image";
 
 const ydoc = new Y.Doc();
 
 const provider = new WebrtcProvider("tiptap-collaboration-extension", ydoc);
+
+type ImageData = { url: string };
 
 export default function Tiptap({
   content,
@@ -26,9 +31,10 @@ export default function Tiptap({
   content: string;
   onChange: any;
 }) {
+  const [loading, setLoading] = useState(false);
+  const [renderedImages, setRenderedImages] = useState<ImageData[]>([]);
   const { data: session } = useSession();
   const userName = session?.user.name;
-  console.log(userName);
   const editor = useEditor({
     extensions: [
       Color.configure({
@@ -93,8 +99,62 @@ export default function Tiptap({
     },
   });
 
+  const handleGenerateImage = async () => {
+    setLoading(true);
+    try {
+      const contentImage = editor?.getHTML();
+
+      if (typeof contentImage === "string") {
+        const resp = await fetch("/api/openai", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: contentImage }),
+        });
+
+        if (!resp.ok) {
+          throw new Error("Unable to generate the image");
+        }
+
+        const data = await resp.json();
+        console.log(data);
+
+        setRenderedImages(data.data);
+      } else {
+        throw new Error("O conteúdo do editor não é uma string válida");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col justify-stretch text-start min-h-[250px]">
+      <div className="flex flex-col gap-2 items-center text-center justify-center my-2">
+        {renderedImages.length === 0 && (
+          <div>{loading ? "Carregando" : ""}</div>
+        )}
+        {renderedImages.map((image) => {
+          return (
+            <Image
+              key={image.url}
+              src={image.url}
+              alt={image.url}
+              height={516}
+              width={516}
+            />
+          );
+        })}
+        <Button
+          variant="outline"
+          className="w-fit"
+          onClick={handleGenerateImage}
+        >
+          Gerar Imagem
+        </Button>
+      </div>
       <div className="flex flex-col items-start ">
         <Toolbar editor={editor} />
       </div>

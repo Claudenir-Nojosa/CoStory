@@ -4,6 +4,8 @@ import "/styles/globals.css";
 import { QueryProvider } from "@/providers/query-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import LeftSidebar from "@/components/shared/LeftSideBar";
+import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +22,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AuthProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <body className={inter.className}>
-            <QueryProvider>{children}</QueryProvider>
-          </body>
-        </ThemeProvider>
+        <body className={inter.className}>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <div className="flex">
+                <LeftSidebar />
+                <MaxWidthWrapper>{children}</MaxWidthWrapper>
+              </div>
+            </ThemeProvider>
+          </QueryProvider>
+        </body>
       </AuthProvider>
     </html>
   );
