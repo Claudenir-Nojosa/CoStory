@@ -73,11 +73,13 @@ const LoginForm = () => {
     }
   };
   return (
-    <>
-      <h1 className={`text-2xl`}>Fazer Login</h1>
-
+    <div className=" flex flex-col items-center rounded-lg border w-fit p-6">
+      <h1 className="text-3xl font-bold mb-6">Fazer Login</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 w-full"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -109,40 +111,36 @@ const LoginForm = () => {
             )}
           />
           <div className="flex justify-center items-center">
-            <Button
-              className="hover:text-zinc-400 w-full mt-[20px]"
-              variant="outline"
-              type="submit"
-            >
+            <Button variant="outline" type="submit">
               Login
             </Button>
           </div>
         </form>
 
         <div className="flex flex-col justify-center items-center">
-          <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
+          <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-muted-foreground after:ml-4 after:block after:h-px after:flex-grow after:bg-muted-foreground">
             ou
           </div>
-          <div className="gap-3 flex flex-col justify-center items-center w-full">
+          <div className="gap-3 flex mt-6 justify-center items-center w-full">
             <Button
-              className="hover:text-zinc-400 w-full"
+              className=""
               variant="outline"
               onClick={githubSignInHandler}
             >
               Login com Github
             </Button>
             <Button
-              className="hover:text-zinc-400 w-full"
+              className=""
               variant="outline"
               onClick={googleSignInHandler}
             >
               Login com Google
             </Button>
           </div>
-          <p className="text-center text-sm text-slate-300 mt-20">
+          <p className="text-center text-sm mt-10">
             Se você não possui uma conta
             <Link
-              className="text-violet-400 hover:underline ml-2"
+              className="text-muted-foreground hover:underline ml-2"
               href="/register"
             >
               Registrar
@@ -150,7 +148,7 @@ const LoginForm = () => {
           </p>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 

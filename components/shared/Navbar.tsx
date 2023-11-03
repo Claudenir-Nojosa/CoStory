@@ -1,33 +1,49 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
+  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { ToggleTheme } from "./toggleTheme";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
-export function NavigationMenuDemo() {
+export function NavBar() {
+  const session = useSession();
+  const router = useRouter();
+  const handleSignOut = () => {
+    signOut();
+    router.push("/");
+  };
   return (
-    <div className="navbar justify-end">
+    <div className="navbar justify-end pb-16">
       <NavigationMenu>
         <NavigationMenuList className="flex gap-2">
           <NavigationMenuItem>
             <ToggleTheme />
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/docs" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Perfil
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuTrigger>Perfil</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul>
+                <ListItem href="/profile/configurations">
+                  Configurações
+                </ListItem>
+                {session.data?.user ? (
+                  <ListItem onClick={handleSignOut} className="cursor-pointer">
+                    Sair
+                  </ListItem>
+                ) : (
+                  <ListItem href="/login">Entrar</ListItem>
+                )}
+              </ul>
+            </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

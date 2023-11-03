@@ -3,8 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
-import { sidebarLinks, siteConfig } from "@/config/site";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { siteConfig } from "@/config/site";
 
 const LeftSidebar = () => {
   const router = useRouter();

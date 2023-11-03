@@ -6,9 +6,10 @@ import { AuthProvider } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import LeftSidebar from "@/components/shared/LeftSideBar";
 import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
-import { NavigationMenuDemo } from "@/components/shared/Navbar";
+import { NavBar } from "@/components/shared/Navbar";
 import BottomBar from "@/components/shared/BottomBar";
 import { siteConfig } from "@/config/site";
+import { auth } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,11 +32,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
     <html lang="en">
       <AuthProvider>
@@ -48,14 +50,15 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <div className="flex">
-                <LeftSidebar />
+                {session?.user.id ? <LeftSidebar /> : ""}
+
                 <div className="flex flex-col flex-1">
-                  <NavigationMenuDemo />
+                  <NavBar />
                   <MaxWidthWrapper className="mb-12 mt-14 sm:mt-15 text-center">
                     {children}
                   </MaxWidthWrapper>
                 </div>
-                <BottomBar />
+                {session?.user.id ? <BottomBar /> : ""}
               </div>
             </ThemeProvider>
           </QueryProvider>

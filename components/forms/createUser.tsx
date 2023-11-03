@@ -64,11 +64,10 @@ const RegisterForm = () => {
   };
 
   return (
-    <>
-      <h1 className={`text-2xl`}>Criar conta</h1>
-
+    <div className=" flex flex-col items-center rounded-lg border w-fit p-6">
+      <h1 className="text-3xl font-bold mb-6">Criar conta</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
           <FormField
             control={form.control}
             name="username"
@@ -113,40 +112,28 @@ const RegisterForm = () => {
             )}
           />
           <div className="flex justify-center items-center">
-            <Button
-              className="hover:text-zinc-400 w-full mt-5"
-              variant="outline"
-              type="submit"
-            >
+            <Button variant="outline" type="submit">
               Registrar
             </Button>
           </div>
         </form>
 
         <div>
-          <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
+          <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-muted-foreground after:ml-4 after:block after:h-px after:flex-grow after:bg-muted-foreground">
             ou
           </div>
-          <div className="gap-3 flex flex-col justify-center items-center">
-            <Button
-              className="hover:text-zinc-400 w-full"
-              variant="outline"
-              onClick={() => signIn("github")}
-            >
+          <div className="gap-3 flex justify-center items-center">
+            <Button variant="outline" onClick={() => signIn("github")}>
               Login com Github
             </Button>
-            <Button
-              className="hover:text-zinc-400 w-full"
-              variant="outline"
-              onClick={() => signIn("google")}
-            >
+            <Button variant="outline" onClick={() => signIn("google")}>
               Login com Google
             </Button>
           </div>
-          <p className="text-center text-sm text-slate-300 mt-10">
+          <p className="text-center text-sm  mt-10">
             Você já possui uma conta?
             <Link
-              className="text-violet-400 hover:underline ml-2"
+              className="text-muted-foreground hover:underline ml-2"
               href="/login"
             >
               Login
@@ -154,7 +141,7 @@ const RegisterForm = () => {
           </p>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 
