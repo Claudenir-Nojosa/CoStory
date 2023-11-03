@@ -51,7 +51,6 @@ export default async function RootLayout({
             >
               <div className="flex">
                 {session?.user.id ? <LeftSidebar /> : ""}
-
                 <div className="flex flex-col flex-1">
                   <NavBar />
                   <MaxWidthWrapper className="mb-12 mt-14 sm:mt-15 text-center">

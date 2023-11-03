@@ -13,6 +13,8 @@ import {
 import { ToggleTheme } from "./toggleTheme";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export function NavBar() {
   const session = useSession();
@@ -28,23 +30,27 @@ export function NavBar() {
           <NavigationMenuItem>
             <ToggleTheme />
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Perfil</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul>
-                <ListItem href="/profile/configurations">
-                  Configurações
-                </ListItem>
-                {session.data?.user ? (
+          {session.status === "authenticated" ? (
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Perfil</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul>
+                  <ListItem href="/profile/configurations">
+                    Configurações
+                  </ListItem>
                   <ListItem onClick={handleSignOut} className="cursor-pointer">
                     Sair
                   </ListItem>
-                ) : (
-                  <ListItem href="/login">Entrar</ListItem>
-                )}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ) : (
+            <NavigationMenuItem>
+              <Link href="/login">
+                <Button variant="ghost">Entrar</Button>
+              </Link>
+            </NavigationMenuItem>
+          )}
         </NavigationMenuList>
       </NavigationMenu>
     </div>
