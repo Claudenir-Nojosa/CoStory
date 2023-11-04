@@ -18,12 +18,17 @@ export async function POST(req: Request) {
       data: {
         title: body.title,
         content: body.content,
-        category: "YourCategoryValue",
+        category: body.category,
         coverImage: body.coverImage,
         isCompleted: false,
         User: {
           connect: {
             id: session.user.id as string,
+          },
+        },
+        Category: {
+          connect: {
+            id: body.category,
           },
         },
       },
