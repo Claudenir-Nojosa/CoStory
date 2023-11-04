@@ -12,11 +12,13 @@ import Highlight from "@tiptap/extension-highlight";
 import * as Y from "yjs";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import TextAlign from "@tiptap/extension-text-align";
 import { WebrtcProvider } from "y-webrtc";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import Image from "next/image";
+import Loading from "../shared/Loading";
 
 const ydoc = new Y.Doc();
 
@@ -86,6 +88,10 @@ export default function Tiptap({
           color: "#f783ac",
         },
       }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+        alignments: ["left", "right", "center"],
+      }),
     ],
     content,
     editorProps: {
@@ -133,9 +139,6 @@ export default function Tiptap({
   return (
     <div className="flex flex-col justify-stretch text-start min-h-[250px]">
       <div className="flex flex-col gap-2 items-center text-center justify-center my-2">
-        {renderedImages.length === 0 && (
-          <div>{loading ? "Carregando" : ""}</div>
-        )}
         {renderedImages.map((image) => {
           return (
             <Image
@@ -150,9 +153,10 @@ export default function Tiptap({
         <Button
           variant="outline"
           className="w-fit"
+          type="button"
           onClick={handleGenerateImage}
         >
-          Gerar Imagem
+          {loading ? <Loading /> : "Gerar foto de capa"}
         </Button>
       </div>
       <div className="flex flex-col items-start ">

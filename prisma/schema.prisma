@@ -25,6 +25,8 @@ model User {
   Session     Session[]
   Contributor Contributor[]
   Favorite    Favorite[]
+  Story       Story?        @relation(fields: [storyId], references: [id])
+  storyId     String?       @db.ObjectId
 }
 
 model Account {
@@ -62,19 +64,10 @@ model Story {
   category    String
   coverImage  String
   isCompleted Boolean
-  chapters    Chapter[]
+  content     String
+  User        User[]
   Contributor Contributor[]
   Favorite    Favorite[]
-}
-
-model Chapter {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String
-  story     Story    @relation(fields: [storyId], references: [id])
-  storyId   String   @db.ObjectId
 }
 
 model Contributor {

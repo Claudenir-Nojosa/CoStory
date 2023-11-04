@@ -1,3 +1,4 @@
+import Stories from "@/components/story/Stories";
 import { auth } from "@/lib/auth";
 
 const Page = async () => {
@@ -8,7 +9,10 @@ const Page = async () => {
       {!session?.user ? (
         <p>Por gentileza, realize o login</p>
       ) : (
-        <p>Olá, {session?.user.name}</p>
+        <div>
+          <p>Olá, {session?.user.name}</p>
+          <Stories />
+        </div>
       )}
     </section>
   );

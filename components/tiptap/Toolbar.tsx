@@ -1,6 +1,8 @@
 import { type Editor } from "@tiptap/react";
 import { Toggle } from "../ui/toggle";
 import {
+  AlignCenter,
+  AlignLeft,
   Bold,
   CaseLower,
   Heading1,
@@ -107,6 +109,24 @@ export function Toolbar({ editor }: Props) {
         onPressedChange={() => editor.chain().focus().setHorizontalRule().run()}
       >
         <Minus className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive({ textAlign: "center" })}
+        onPressedChange={() =>
+          editor.chain().focus().setTextAlign("center").run()
+        }
+      >
+        <AlignCenter className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive({ textAlign: "left" })}
+        onPressedChange={() =>
+          editor.chain().focus().setTextAlign("left").run()
+        }
+      >
+        <AlignLeft className="h-4 w-4" />
       </Toggle>
     </div>
   );

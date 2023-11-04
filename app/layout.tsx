@@ -10,6 +10,9 @@ import { NavBar } from "@/components/shared/Navbar";
 import BottomBar from "@/components/shared/BottomBar";
 import { siteConfig } from "@/config/site";
 import { auth } from "@/lib/auth";
+import { Toaster } from 'sonner'
+
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +22,7 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+
   icons: {
     icon: "https://raw.githubusercontent.com/Claudenir-Nojosa/servidor_estaticos/main/logo.ico",
     shortcut:
@@ -40,6 +40,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
+      <Toaster />
       <AuthProvider>
         <body className={inter.className}>
           <QueryProvider>
