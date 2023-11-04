@@ -68,6 +68,15 @@ model Story {
   User        User[]
   Contributor Contributor[]
   Favorite    Favorite[]
+  Category    Category?     @relation(fields: [categoryId], references: [id])
+  categoryId  String?       @db.ObjectId
+}
+
+model Category {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  icon  String
+  Story Story[]
 }
 
 model Contributor {

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         title: body.title,
         content: body.content,
         category: "YourCategoryValue",
-        coverImage: "YourCoverImageValue",
+        coverImage: body.coverImage,
         isCompleted: false,
         User: {
           connect: {

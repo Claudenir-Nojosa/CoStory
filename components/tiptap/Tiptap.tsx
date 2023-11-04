@@ -29,9 +29,11 @@ type ImageData = { url: string };
 export default function Tiptap({
   content,
   onChange,
+  onImageGenerated,
 }: {
   content: string;
   onChange: any;
+  onImageGenerated: any;
 }) {
   const [loading, setLoading] = useState(false);
   const [renderedImages, setRenderedImages] = useState<ImageData[]>([]);
@@ -124,9 +126,13 @@ export default function Tiptap({
         }
 
         const data = await resp.json();
-        console.log(data);
+
+        const imageUrl = data.data[0].url;
 
         setRenderedImages(data.data);
+        console.log(renderedImages);
+
+        onImageGenerated(imageUrl);
       } else {
         throw new Error("O conteúdo do editor não é uma string válida");
       }
@@ -139,17 +145,6 @@ export default function Tiptap({
   return (
     <div className="flex flex-col justify-stretch text-start min-h-[250px]">
       <div className="flex flex-col gap-2 items-center text-center justify-center my-2">
-        {renderedImages.map((image) => {
-          return (
-            <Image
-              key={image.url}
-              src={image.url}
-              alt={image.url}
-              height={516}
-              width={516}
-            />
-          );
-        })}
         <Button
           variant="outline"
           className="w-fit"

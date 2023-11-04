@@ -16,20 +16,47 @@ import * as z from "zod";
 import { StorySchema } from "@/lib/validation/story";
 import Tiptap from "../tiptap/Tiptap";
 import { initialValues } from "../tiptap/initialValue";
-import { useMutation } from "@tanstack/react-query";
-import { Story } from "@prisma/client";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Category, Story } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { ScrollArea } from "../ui/scroll-area";
 
 export const StoryForm = () => {
   const router = useRouter();
+  const [generatedImage, setGeneratedImage] = useState<string>("");
+  const [coverImageUrl, setCoverImageUrl] = useState<string>("");
 
   const form = useForm<z.infer<typeof StorySchema>>({
     mode: "onChange",
     resolver: zodResolver(StorySchema),
     defaultValues: initialValues,
   });
+
+  const { data: dataCategories, isLoading: isLoadingCategories } = useQuery<
+    Category[]
+  >({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const response = await axios.get("/api/story/categories");
+      return response.data;
+    },
+  });
+
+  const defaultValue =
+    initialValues && dataCategories
+      ? dataCategories.find((category) => category.id)?.name || ""
+      : "Selecione";
 
   const { mutate: createStory } = useMutation<
     Story,
@@ -41,7 +68,6 @@ export const StoryForm = () => {
       return response.data;
     },
     onSuccess: (data) => {
-
       toast.success("História criada com sucesso!");
       router.push("/");
       router.refresh();
@@ -50,6 +76,13 @@ export const StoryForm = () => {
       toast.error("Aconteceu um erro ao criar a História, tente novamente");
     },
   });
+
+  useEffect(() => {
+    if (generatedImage) {
+      setCoverImageUrl(generatedImage);
+      form.setValue("coverImage", generatedImage);
+    }
+  }, [form, generatedImage]);
 
   const onSubmit: SubmitHandler<z.infer<typeof StorySchema>> = async (
     values
@@ -80,6 +113,88 @@ export const StoryForm = () => {
               </FormItem>
             )}
           />
+          {generatedImage === "" ? (
+            ""
+          ) : (
+            <FormField
+              control={form.control}
+              name="coverImage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold text-2xl">
+                    Capa da História
+                  </FormLabel>
+                  <FormControl>
+                    <div className="flex justify-center">
+                      <Input
+                        type="text"
+                        {...field}
+                        value={coverImageUrl}
+                        className="hidden"
+                      />
+                      <Image
+                        src={generatedImage}
+                        alt="Capa da História"
+                        height={300}
+                        width={300}
+                        className="rounded-xl"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold text-2xl">
+                  Categoria
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={
+                      initialValues && dataCategories
+                        ? dataCategories.find((category) => category.id)
+                            ?.name || ""
+                        : "Selecione"
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={`${defaultValue}`} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <ScrollArea className="h-[200px]">
+                        {dataCategories?.map((item) => (
+                          <SelectItem
+                            className=""
+                            key={item.id}
+                            value={item.id}
+                          >
+                            <div className="flex justify-between items-center gap-3">
+                              <Image
+                                alt={item.name}
+                                src={item.icon}
+                                height={35}
+                                width={35}
+                              />
+
+                              {item.name}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </ScrollArea>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="content"
@@ -89,7 +204,11 @@ export const StoryForm = () => {
                   Conteúdo
                 </FormLabel>
                 <FormControl>
-                  <Tiptap content={field.value} onChange={field.onChange} />
+                  <Tiptap
+                    content={field.value}
+                    onChange={field.onChange}
+                    onImageGenerated={setGeneratedImage}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
