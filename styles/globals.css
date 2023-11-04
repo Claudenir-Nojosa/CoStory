@@ -49,7 +49,7 @@
   }
 
   .navbar {
-    @apply sticky top-0 right-0 z-20 flex justify-between border-r  py-3 px-8;
+    @apply sticky top-0 right-0 z-20 flex justify-between py-5 px-20;
   }
 
   .leftsidebar {

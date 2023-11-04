@@ -10,6 +10,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ToggleTheme } from "./toggleTheme";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
@@ -26,14 +27,38 @@ export function NavBar() {
   return (
     <div className="navbar justify-end pb-16">
       <NavigationMenu>
-        <NavigationMenuList className="flex gap-2">
+        <NavigationMenuList className="flex gap-3">
           <NavigationMenuItem>
             <ToggleTheme />
           </NavigationMenuItem>
           {session.status === "authenticated" ? (
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Perfil</NavigationMenuTrigger>
+              <NavigationMenuTrigger>
+                {session.data.user.image &&
+                typeof session.data.user.image === "string" ? (
+                  <Avatar>
+                    <AvatarImage src={session.data.user.image} />
+                    <AvatarFallback>
+                      {typeof session.data.user.name === "string"
+                        ? session.data.user.name.charAt(0).toUpperCase()
+                        : ""}
+                    </AvatarFallback>
+                  </Avatar>
+                ) : null}
+              </NavigationMenuTrigger>
               <NavigationMenuContent>
+                {session.data.user.name &&
+                typeof session.data.user.name === "string" &&
+                typeof session.data.user.email === "string" ? (
+                  <div>
+                    <ListItem className="flex flex-col p-3 pr-10 font-semibold">
+                      <p>{session.data.user.name}</p>{" "}
+                      <p>{session.data.user.email}</p>
+                    </ListItem>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <ul>
                   <ListItem href="/profile/configurations">
                     Configurações

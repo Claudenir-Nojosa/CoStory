@@ -24,11 +24,6 @@ export const siteConfig = {
       route: "/favorites",
       label: "Favoritos",
     },
-    {
-      imgURL: "/assets/profile.svg",
-      route: "/profile",
-      label: "Perfil",
-    },
   ],
 };
 
