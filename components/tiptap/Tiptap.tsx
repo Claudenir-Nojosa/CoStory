@@ -17,7 +17,6 @@ import { WebrtcProvider } from "y-webrtc";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import Image from "next/image";
 import Loading from "../shared/Loading";
 
 const ydoc = new Y.Doc();

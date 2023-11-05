@@ -10,7 +10,6 @@ const Page = async () => {
         <p>Por gentileza, realize o login</p>
       ) : (
         <div>
-          <p>Olá, {session?.user.name}</p>
           <Stories />
         </div>
       )}

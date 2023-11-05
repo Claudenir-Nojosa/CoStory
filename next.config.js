@@ -20,8 +20,13 @@ const nextConfig = {
         port: "",
         pathname: "/private/**",
       },
+      {
+        protocol: "https",
+        hostname: "github.com",
+        port: "",
+        pathname: "/Claudenir-Nojosa/**",
+      },
     ],
-    domains: ["github.com"],
   },
 };
 

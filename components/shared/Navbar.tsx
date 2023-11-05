@@ -25,7 +25,7 @@ export function NavBar() {
     router.push("/");
   };
   return (
-    <div className="navbar justify-end pb-16">
+    <div className="navbar justify-end ">
       <NavigationMenu>
         <NavigationMenuList className="flex gap-3">
           <NavigationMenuItem>

@@ -1,9 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,6 +33,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { ScrollArea } from "../ui/scroll-area";
+import StoryPreview from "../story/StoryPreview";
 
 export const StoryForm = () => {
   const router = useRouter();
@@ -57,6 +60,14 @@ export const StoryForm = () => {
     initialValues && dataCategories
       ? dataCategories.find((category) => category.id)?.name || ""
       : "Selecione";
+
+  const [realTimeData, setRealTimeData] = useState({
+    title: initialValues.title,
+    category: defaultValue,
+    coverImage: "",
+    content: initialValues.content,
+    isCompleted: false,
+  });
 
   const { mutate: createStory } = useMutation<
     Story,
@@ -92,135 +103,175 @@ export const StoryForm = () => {
   };
 
   return (
-    <>
-      <h1 className="text-4xl font-bold mb-7">Criar história</h1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold text-2xl">Título</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Título da história"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {generatedImage === "" ? (
-            ""
-          ) : (
+    <div className="grid grid-cols-2 gap-3">
+      <div>
+        <h1 className="text-4xl font-bold mb-7">Criar história</h1>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="coverImage"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-semibold text-2xl">
-                    Capa da História
+                    Título
                   </FormLabel>
                   <FormControl>
-                    <div className="flex justify-center">
-                      <Input
-                        type="text"
-                        {...field}
-                        value={coverImageUrl}
-                        className="hidden"
-                      />
-                      <Image
-                        src={generatedImage}
-                        alt="Capa da História"
-                        height={300}
-                        width={300}
-                        className="rounded-xl"
-                      />
-                    </div>
+                    <Input
+                      type="text"
+                      placeholder="Título da história"
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setRealTimeData({
+                          ...realTimeData,
+                          title: e.target.value,
+                        });
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          )}
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold text-2xl">
-                  Categoria
-                </FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={
-                      initialValues && dataCategories
-                        ? dataCategories.find((category) => category.id)
-                            ?.name || ""
-                        : "Selecione"
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder={`${defaultValue}`} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <ScrollArea className="h-[200px]">
-                        {dataCategories?.map((item) => (
-                          <SelectItem
-                            className=""
-                            key={item.id}
-                            value={item.id}
-                          >
-                            <div className="flex justify-between items-center gap-3">
-                              <Image
-                                alt={item.name}
-                                src={item.icon}
-                                height={35}
-                                width={35}
-                              />
+            {generatedImage === "" ? (
+              ""
+            ) : (
+              <FormField
+                control={form.control}
+                name="coverImage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold text-2xl">
+                      Capa da História
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex justify-center">
+                        <Input
+                          type="text"
+                          {...field}
+                          value={coverImageUrl}
+                          className="hidden"
+                        />
+                        <Image
+                          src={generatedImage}
+                          alt="Capa da História"
+                          height={300}
+                          width={300}
+                          className="rounded-xl"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold text-2xl">
+                    Categoria
+                  </FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setRealTimeData({
+                          ...realTimeData,
+                          category: value,
+                        });
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <ScrollArea className="h-[200px]">
+                          {dataCategories?.map((item) => (
+                            <SelectItem
+                              className=""
+                              key={item.id}
+                              value={item.id}
+                            >
+                              <div className="flex justify-between items-center gap-3">
+                                <Image
+                                  alt={item.name}
+                                  src={item.icon}
+                                  height={35}
+                                  width={35}
+                                />
 
-                              {item.name}
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </ScrollArea>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-semibold text-2xl">
-                  Conteúdo
-                </FormLabel>
-                <FormControl>
-                  <Tiptap
-                    content={field.value}
-                    onChange={field.onChange}
-                    onImageGenerated={setGeneratedImage}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-center">
-            <Button variant="outline" type="submit" className="w-full">
-              Criar
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </>
+                                {item.name}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </ScrollArea>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold text-2xl">
+                    Conteúdo
+                  </FormLabel>
+                  <FormControl>
+                    <Tiptap
+                      content={realTimeData.content}
+                      onChange={(newContent: any) =>
+                        setRealTimeData({
+                          ...realTimeData,
+                          content: newContent,
+                        })
+                      }
+                      onImageGenerated={setGeneratedImage}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isCompleted"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>A história está completa?</FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-center items-center">
+              <Button variant="outline" type="submit" className="w-full">
+                Criar
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+      <div className="dotted">
+        <StoryPreview
+          title={realTimeData.title}
+          content={realTimeData.content}
+          coverImage={generatedImage || realTimeData.coverImage}
+          category={realTimeData.category}
+        />
+      </div>
+    </div>
   );
 };

@@ -49,7 +49,7 @@
   }
 
   .navbar {
-    @apply sticky top-0 right-0 z-20 flex justify-between py-5 px-20;
+    @apply sticky top-0 right-0 z-20 flex justify-between py-5 px-20 backdrop-blur-sm;
   }
 
   .leftsidebar {
@@ -71,8 +71,18 @@
   .bottombar_link {
     @apply relative flex flex-col items-center gap-2 rounded-lg p-2 sm:flex-1 sm:px-2 sm:py-2.5;
   }
+ 
 }
 
+.dotted {
+  background-color: #fcf7f7;
+  background-image: radial-gradient(circle, #c3b5f7 1px, transparent 1px),
+    radial-gradient(circle, #c3b5f7 1px, transparent 1px);
+  background-size: 20px 20px;
+  border-radius: 2rem;
+  padding: 1rem;
+  background-position: 0 0, 10px 10px;
+}
 .tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);

@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         content: body.content,
         category: body.category,
         coverImage: body.coverImage,
-        isCompleted: false,
+        isCompleted: body.isCompleted,
         User: {
           connect: {
             id: session.user.id as string,

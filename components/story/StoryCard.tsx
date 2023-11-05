@@ -22,11 +22,14 @@ interface StoryCardProps {
     content: string;
     coverImage: string;
     category: string;
+    isCompleted: boolean;
   };
 }
 
 const StoryCard: FC<StoryCardProps> = ({ story }) => {
-  const { title, content, coverImage, category } = story;
+  const { title, content, coverImage, category, isCompleted } = story;
+  console.log(title);
+  console.log(isCompleted);
   console.log(category);
 
   const { data: dataCategories, isLoading: isLoadingCategories } = useQuery<
@@ -71,15 +74,16 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
         <Image
           src={coverImage}
           alt="Capa da História"
-          height={300}
-          width={300}
+          height={259}
+          width={259}
           className="rounded-xl"
         />
       </CardHeader>
       <CardContent>
-        <p>{content}</p>
+        <div className="mt-10" dangerouslySetInnerHTML={{ __html: content }} />
       </CardContent>
       <CardFooter>
+        <Badge variant="outline">{isCompleted}</Badge>
         <Button variant="outline">
           <Link href="/stories/1" className="hover:underline">
             Ler mais...
