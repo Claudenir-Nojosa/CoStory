@@ -18,6 +18,8 @@ import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import Loading from "../shared/Loading";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Bot } from "lucide-react";
 
 const ydoc = new Y.Doc();
 
@@ -35,6 +37,7 @@ export default function Tiptap({
   onImageGenerated: any;
 }) {
   const [loading, setLoading] = useState(false);
+  const [AILoading, setAILoading] = useState(false);
   const [renderedImages, setRenderedImages] = useState<ImageData[]>([]);
   const { data: session } = useSession();
   const userName = session?.user.name;
@@ -141,6 +144,69 @@ export default function Tiptap({
       setLoading(false);
     }
   };
+
+  const handleGenerateParagraph = async () => {
+    try {
+      setAILoading(true);
+      const content = editor?.getHTML();
+
+      if (typeof content === "string") {
+        const resp = await fetch("/api/openai/completion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        });
+
+        if (resp.ok && editor) {
+          const data = await resp.json();
+          const generatedContent = data.data.choices[0].text;
+          editor.commands.insertContent(generatedContent);
+        } else {
+          throw new Error("Unable to generate the AI completion");
+        }
+      } else {
+        throw new Error("O conteúdo do editor não é uma string válida");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    } finally {
+      setAILoading(false);
+    }
+  };
+
+  const handleGenerateTwist = async () => {
+    try {
+      setAILoading(true);
+      const content = editor?.getHTML();
+
+      if (typeof content === "string") {
+        const resp = await fetch("/api/openai/twist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        });
+
+        if (resp.ok && editor) {
+          const data = await resp.json();
+          const generatedContent = data.data.choices[0].text;
+          editor.commands.insertContent(generatedContent);
+        } else {
+          throw new Error("Unable to generate the AI completion");
+        }
+      } else {
+        throw new Error("O conteúdo do editor não é uma string válida");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    } finally {
+      setAILoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-stretch text-start min-h-[250px]">
       <div className="flex flex-col gap-2 items-center text-center justify-center my-2">
@@ -153,8 +219,29 @@ export default function Tiptap({
           {loading ? <Loading /> : "Gerar foto de capa"}
         </Button>
       </div>
-      <div className="flex flex-col items-start ">
+      <div className="flex items-start gap-2">
         <Toolbar editor={editor} />
+        <Popover>
+          <PopoverTrigger className="ml-20">
+            {AILoading ? <Loading /> : <Bot />}
+          </PopoverTrigger>
+          <PopoverContent className="w-full flex flex-col gap-4">
+            <Button
+              variant={"ghost"}
+              onClick={handleGenerateParagraph}
+              type="button"
+            >
+              Completar um parágrafo
+            </Button>
+            <Button
+              variant={"ghost"}
+              onClick={handleGenerateTwist}
+              type="button"
+            >
+              Faça uma reviravolta inesperada
+            </Button>
+          </PopoverContent>
+        </Popover>
       </div>
       <EditorContent editor={editor} />
     </div>

@@ -8,13 +8,17 @@ import {
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
-import { Category } from "@prisma/client";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Category, Favorite } from "@prisma/client";
 import axios from "axios";
 import { Heart } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { db } from "@/lib/prismadb";
 
 interface StoryCardProps {
   story: {
@@ -29,7 +33,11 @@ interface StoryCardProps {
 
 const StoryCard: FC<StoryCardProps> = ({ story }) => {
   const { title, content, coverImage, category, isCompleted } = story;
+  const router = useRouter();
+  const session = useSession();
+  const userId = session.data?.user.id as string;
 
+  // Fetch das Categorias
   const { data: dataCategories, isLoading: isLoadingCategories } = useQuery<
     Category[]
   >({
@@ -39,6 +47,17 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
       return response.data;
     },
   });
+  // Fetch dos favoritos
+  const { data: dataFavorites, isLoading: isLoadingFavorites } = useQuery<
+    Favorite[]
+  >({
+    queryKey: ["favorites"],
+    queryFn: async () => {
+      const response = await axios.get("/api/story/byUser/favorites");
+      return response.data;
+    },
+  });
+  console.log(dataFavorites);
 
   const mapCategoriesIcon = (categoryId: any, dataCategories: any) => {
     if (dataCategories) {
@@ -61,6 +80,34 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
   };
 
   const categoryIcon = mapCategoriesIcon(category, dataCategories);
+
+  // POST para Favoritar História
+  const { mutate: favoritarStory } = useMutation<
+    Favorite,
+    Error,
+    { userId: string; storyId: string }
+  >({
+    mutationFn: async (newFavoriteData) => {
+      const response = await axios.post(
+        "/api/story/byUser/favorites",
+        newFavoriteData
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success("História favoritada com sucesso!");
+    },
+    onError: (data) => {
+      toast.error("Aconteceu um erro ao favoritar a História, tente novamente");
+    },
+  });
+
+  const handleFavoritarClick = () => {
+    if (userId) {
+      const storyId = story.id;
+      favoritarStory({ userId, storyId });
+    }
+  };
 
   return (
     <Card className="max-w-sm flex flex-col items-center justify-center">
@@ -89,9 +136,8 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
             Ler mais...
           </Link>
         </Button>
-        <Button variant="outline">
+        <Button variant="ghost" size="icon" onClick={handleFavoritarClick}>
           <Heart />
-          Favoritar
         </Button>
       </CardFooter>
     </Card>
