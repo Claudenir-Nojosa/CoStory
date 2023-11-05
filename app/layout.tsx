@@ -24,11 +24,11 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 
   icons: {
-    icon: "https://raw.githubusercontent.com/Claudenir-Nojosa/servidor_estaticos/main/logo.ico",
+    icon: "/assets/logo.ico",
     shortcut:
-      "https://raw.githubusercontent.com/Claudenir-Nojosa/servidor_estaticos/main/logo.ico",
+      "/assets/logo.ico",
     apple:
-      "https://raw.githubusercontent.com/Claudenir-Nojosa/servidor_estaticos/main/logo.ico",
+      "/assets/logo.ico",
   },
 };
 

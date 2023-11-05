@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { Category } from "@prisma/client";
 import axios from "axios";
+import { Heart } from "lucide-react";
 
 interface StoryCardProps {
   story: {
@@ -87,6 +88,10 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
           <Link href="/stories/1" className="hover:underline">
             Ler mais...
           </Link>
+        </Button>
+        <Button variant="outline">
+          <Heart />
+          Favoritar
         </Button>
       </CardFooter>
     </Card>
