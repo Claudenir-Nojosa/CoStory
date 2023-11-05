@@ -4,19 +4,25 @@ import StoryCard from "@/components/story/StoryCard";
 import { Story } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import MaxWidthWrapper from "../shared/MaxWidthWrapper";
+import Loading from "../shared/Loading";
 
 const Stories = () => {
-  const {
-    data: dataStories,
-    isLoading: isLoadingStories,
-    isError: isErrorStories,
-  } = useQuery({
+  const { data: dataStories, isLoading: isLoadingStories } = useQuery({
     queryKey: ["stories"],
     queryFn: async () => {
       const { data } = await axios.get("/api/story");
       return data.stories as Story[];
     },
   });
+  
+  if (isLoadingStories) {
+    return (
+      <MaxWidthWrapper className="flex justify-center items-center mt-56">
+        <Loading />
+      </MaxWidthWrapper>
+    );
+  }
 
   return (
     <div>
