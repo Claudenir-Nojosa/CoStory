@@ -23,6 +23,7 @@ export function NavBar() {
   const handleSignOut = () => {
     signOut();
     router.push("/");
+    router.refresh();
   };
   return (
     <div className="navbar justify-end ">

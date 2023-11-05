@@ -1,7 +1,7 @@
-import React from "react";
+import UserStories from "@/components/story/userStories";
 
 const Stories = () => {
-  return <div>Stories</div>;
+  return <UserStories />;
 };
 
 export default Stories;

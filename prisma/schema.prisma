@@ -12,21 +12,20 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?   @unique
+  email          String?       @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-
-  accounts    Account[]
-  Session     Session[]
-  Contributor Contributor[]
-  Favorite    Favorite[]
-  Story       Story?        @relation(fields: [storyId], references: [id])
-  storyId     String?       @db.ObjectId
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  accounts       Account[]
+  Session        Session[]
+  Contributor    Contributor[]
+  Favorite       Favorite[]
+  Story          Story[]
+  storyId        String?       @db.ObjectId
 }
 
 model Account {
@@ -65,11 +64,12 @@ model Story {
   coverImage  String
   isCompleted Boolean
   content     String
-  User        User[]
+  userId      String        @db.ObjectId
+  User        User          @relation(fields: [userId], references: [id])
   Contributor Contributor[]
   Favorite    Favorite[]
-  Category    Category?     @relation(fields: [categoryId], references: [id])
-  categoryId  String?       @db.ObjectId
+  Category    Category      @relation(fields: [categoryId], references: [id])
+  categoryId  String        @db.ObjectId
 }
 
 model Category {
