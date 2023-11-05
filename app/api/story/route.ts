@@ -10,6 +10,7 @@ export async function GET() {
         content: true,
         category: true,
         coverImage: true,
+        isCompleted: true,
         User: true,
       },
       orderBy: {

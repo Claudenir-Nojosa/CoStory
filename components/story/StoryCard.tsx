@@ -28,9 +28,6 @@ interface StoryCardProps {
 
 const StoryCard: FC<StoryCardProps> = ({ story }) => {
   const { title, content, coverImage, category, isCompleted } = story;
-  console.log(title);
-  console.log(isCompleted);
-  console.log(category);
 
   const { data: dataCategories, isLoading: isLoadingCategories } = useQuery<
     Category[]
@@ -67,9 +64,15 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
   return (
     <Card className="max-w-sm flex flex-col items-center justify-center">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>
+        <CardTitle className="mb-5">{title}</CardTitle>
+        <CardDescription className="flex flex-col gap-2 justify-center items-center text-center">
           <Badge variant="outline">{categoryIcon}</Badge>
+          <Badge
+            variant="outline"
+            className={`${isCompleted ? "text-green-500" : "text-red-500"} p-2`}
+          >
+            {isCompleted ? "Completo" : "Incompleto"}
+          </Badge>
         </CardDescription>
         <Image
           src={coverImage}
@@ -79,11 +82,7 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
           className="rounded-xl"
         />
       </CardHeader>
-      <CardContent>
-        <div className="mt-10" dangerouslySetInnerHTML={{ __html: content }} />
-      </CardContent>
       <CardFooter>
-        <Badge variant="outline">{isCompleted}</Badge>
         <Button variant="outline">
           <Link href="/stories/1" className="hover:underline">
             Ler mais...
