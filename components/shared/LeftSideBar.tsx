@@ -9,8 +9,10 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { siteConfig } from "@/config/site";
+import { useSession } from "next-auth/react";
 
 const LeftSidebar = () => {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,6 +33,9 @@ const LeftSidebar = () => {
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
 
+          if (link.label === "Perfil" && session?.user.id) {
+            link.route = `/profile/${session.user.id}`;
+          }
           return (
             <Link
               href={link.route}

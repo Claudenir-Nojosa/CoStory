@@ -27,3 +27,12 @@ export const RegisterSchema = z.object({
     .string()
     .min(6, { message: "Senha deve conter no mínimo 6 caracteres" }),
 });
+export const UserSchema = z.object({
+  username: z
+    .string()
+    .min(2, { message: "Insira seu Nome" })
+    .max(50, { message: "Limite de caracteres" })
+    .refine((username) => /^[A-Za-z]+$/.test(username), {
+      message: "O nome de usuário deve conter apenas letras",
+    }),
+});

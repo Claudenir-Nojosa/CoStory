@@ -113,14 +113,17 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
     <Card className="max-w-sm flex flex-col items-center justify-center">
       <CardHeader>
         <CardTitle className="mb-5">{title}</CardTitle>
-        <CardDescription className="flex flex-col gap-2 justify-center items-center text-center">
+        <CardDescription className="flex  gap-2 justify-center items-center text-center">
           <Badge variant="outline">{categoryIcon}</Badge>
           <Badge
             variant="outline"
-            className={`${isCompleted ? "text-green-500" : "text-red-500"} p-2`}
+            className={`${isCompleted ? "text-green-500" : "text-red-500"} p-2 px-4`}
           >
             {isCompleted ? "Completo" : "Incompleto"}
           </Badge>
+          <Button variant="ghost" size="icon" onClick={handleFavoritarClick}>
+            <Heart />
+          </Button>
         </CardDescription>
         <Image
           src={coverImage}
@@ -133,11 +136,8 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
       <CardFooter>
         <Button variant="outline">
           <Link href="/stories/1" className="hover:underline">
-            Ler mais...
+            Ler história
           </Link>
-        </Button>
-        <Button variant="ghost" size="icon" onClick={handleFavoritarClick}>
-          <Heart />
         </Button>
       </CardFooter>
     </Card>
