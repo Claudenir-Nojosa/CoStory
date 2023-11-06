@@ -30,9 +30,10 @@ export const RegisterSchema = z.object({
 export const UserSchema = z.object({
   username: z
     .string()
-    .min(2, { message: "Insira seu Nome" })
+    .min(2, { message: "Insira um nome" })
     .max(50, { message: "Limite de caracteres" })
     .refine((username) => /^[A-Za-z]+$/.test(username), {
       message: "O nome de usuário deve conter apenas letras",
     }),
+  email: z.string().optional(),
 });
