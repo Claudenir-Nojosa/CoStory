@@ -36,4 +36,5 @@ export const UserSchema = z.object({
       message: "O nome de usuário deve conter apenas letras",
     }),
   email: z.string().optional(),
+  image: z.string().optional(),
 });

@@ -26,6 +26,12 @@ const nextConfig = {
         port: "",
         pathname: "/Claudenir-Nojosa/**",
       },
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        port: "",
+        pathname: "",
+      },
     ],
   },
 };
