@@ -225,7 +225,7 @@ export default function Tiptap({
           <PopoverTrigger className="ml-20">
             {AILoading ? <Loading /> : <Bot />}
           </PopoverTrigger>
-          <PopoverContent className="w-full flex flex-col gap-4">
+          <PopoverContent className="flex flex-col w-fit gap-4">
             <Button
               variant={"ghost"}
               onClick={handleGenerateParagraph}

@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { Separator } from "../ui/separator";
 
 export function NavBar() {
   const session = useSession();
@@ -51,19 +52,21 @@ export function NavBar() {
                 {session.data.user.name &&
                 typeof session.data.user.name === "string" &&
                 typeof session.data.user.email === "string" ? (
-                  <div>
-                    <ListItem className="flex flex-col p-3 pr-10 font-semibold">
-                      <p>{session.data.user.name}</p>{" "}
-                      <p>{session.data.user.email}</p>
-                    </ListItem>
+                  <div className="text-sm p-4">
+                    <p className="text-muted-foreground mb-2">Logado em</p>
+                    <p>{session.data.user.name}</p>
+                    <p>{session.data.user.email}</p>
                   </div>
                 ) : (
                   ""
                 )}
+                <Separator />
                 <ul>
-                  <ListItem href="/profile/configurations">
+                  <ListItem href="/">Pagina inicial</ListItem>
+                  <ListItem href={`/profile/${session.data.user.id}`}>
                     Configurações
                   </ListItem>
+                  <Separator />
                   <ListItem onClick={handleSignOut} className="cursor-pointer">
                     Sair
                   </ListItem>
