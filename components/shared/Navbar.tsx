@@ -38,14 +38,16 @@ export function NavBar() {
               <NavigationMenuTrigger>
                 {session.data.user.image &&
                 typeof session.data.user.image === "string" ? (
-                  <Avatar>
-                    <AvatarImage src={session.data.user.image} />
-                    <AvatarFallback>
-                      {typeof session.data.user.name === "string"
-                        ? session.data.user.name.charAt(0).toUpperCase()
-                        : ""}
-                    </AvatarFallback>
-                  </Avatar>
+                  <Link href={`/profile/${session.data.user.id}`}>
+                    <Avatar>
+                      <AvatarImage src={session.data.user.image} />
+                      <AvatarFallback>
+                        {typeof session.data.user.name === "string"
+                          ? session.data.user.name.charAt(0).toUpperCase()
+                          : ""}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Link>
                 ) : null}
               </NavigationMenuTrigger>
               <NavigationMenuContent>

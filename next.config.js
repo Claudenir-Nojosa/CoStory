@@ -18,7 +18,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "oaidalleapiprodscus.blob.core.windows.net",
         port: "",
-        pathname: "/private/**",
+        pathname: "/private/**/**",
       },
       {
         protocol: "https",

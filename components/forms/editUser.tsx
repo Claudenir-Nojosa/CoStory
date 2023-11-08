@@ -85,7 +85,7 @@ const UserEdit: FC<EditUserProps> = ({ params }) => {
                     }}
                     content={{
                       button({ ready }) {
-                        if (ready) return <div>Escolher foto</div>;
+                        if (ready) return <div className="text-primary">Escolher foto</div>;
 
                         return "Ficando pronto...";
                       },

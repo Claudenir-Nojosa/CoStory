@@ -32,7 +32,7 @@ interface StoryCardProps {
 }
 
 const StoryCard: FC<StoryCardProps> = ({ story }) => {
-  const { title, content, coverImage, category, isCompleted } = story;
+  const { title, content, coverImage, category, isCompleted, id } = story;
   const router = useRouter();
   const session = useSession();
   const userId = session.data?.user.id as string;
@@ -117,7 +117,9 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
           <Badge variant="outline">{categoryIcon}</Badge>
           <Badge
             variant="outline"
-            className={`${isCompleted ? "text-green-500" : "text-red-500"} p-2 px-4`}
+            className={`${
+              isCompleted ? "text-green-500" : "text-red-500"
+            } p-2 px-4`}
           >
             {isCompleted ? "Completo" : "Incompleto"}
           </Badge>
@@ -135,7 +137,7 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
       </CardHeader>
       <CardFooter>
         <Button variant="outline">
-          <Link href="/stories/1" className="hover:underline">
+          <Link href={`/stories/${id}`} className="hover:underline">
             Ler história
           </Link>
         </Button>
