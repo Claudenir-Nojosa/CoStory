@@ -18,7 +18,7 @@ interface StoryDetailPageProps {
   };
 }
 
-/* async function getStory(id: string) {
+async function getStory(id: string) {
   const response = await db.story.findFirst({
     where: {
       id: id,
@@ -28,12 +28,12 @@ interface StoryDetailPageProps {
     },
   });
   return response;
-} */
+}
 
-const StoryDetailPage: FC<StoryDetailPageProps> =  ({ params }) => {
-/*   const story =  getStory(params.id); */
+const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
+  const story = await getStory(params.id);
 
-  return <section>Teste</section>;
+  return <section>{story?.id}</section>;
 };
 
 export default StoryDetailPage;

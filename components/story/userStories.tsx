@@ -9,7 +9,7 @@ import MaxWidthWrapper from "../shared/MaxWidthWrapper";
 
 const UserStories = () => {
   const { data: dataStories, isLoading: isLoadingStories } = useQuery({
-    queryKey: ["stories"],
+    queryKey: ["storiesByUser"],
     queryFn: async () => {
       const { data } = await axios.get("/api/story/byUser");
       return data.stories as Story[];
