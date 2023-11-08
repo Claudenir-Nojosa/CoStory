@@ -1,7 +1,5 @@
-"use client";
-
 import { db } from "@/lib/prismadb";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import {
   Card,
   CardContent,
@@ -20,7 +18,7 @@ interface StoryDetailPageProps {
   };
 }
 
-async function getStory(id: string) {
+/* async function getStory(id: string) {
   const response = await db.story.findFirst({
     where: {
       id: id,
@@ -30,19 +28,12 @@ async function getStory(id: string) {
     },
   });
   return response;
-}
+} */
 
-const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
-  const story = await getStory(params.id);
-  const { data: session, status } = useSession();
-  const router = useRouter();
+const StoryDetailPage: FC<StoryDetailPageProps> =  ({ params }) => {
+/*   const story =  getStory(params.id); */
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  });
-  return <section>{story?.id}</section>;
+  return <section>Teste</section>;
 };
 
 export default StoryDetailPage;
