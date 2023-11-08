@@ -71,11 +71,10 @@
   .bottombar_link {
     @apply relative flex flex-col items-center gap-2 rounded-lg p-2 sm:flex-1 sm:px-2 sm:py-2.5;
   }
- 
 }
 
 .dotted {
-  background-color: #fcf7f7;
+  border: 0.5px solid #ccc;
   background-image: radial-gradient(circle, #c3b5f7 1px, transparent 1px),
     radial-gradient(circle, #c3b5f7 1px, transparent 1px);
   background-size: 20px 20px;

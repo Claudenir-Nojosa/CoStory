@@ -19,7 +19,7 @@ export const uploadThingFileRouter = {
     .middleware(async (req) => {
       // This code runs on your server before upload
       const session = (await auth()) as Session;
-      const authUT = (req: Request) => ({ id: session.user.id });
+      const authUT = (req: any) => ({ id: session.user.id });
       const user = await authUT(req);
 
       // If you throw, the user will not be able to upload

@@ -49,7 +49,7 @@ const StoryPreview: FC<StoryPreviewProps> = ({
 
   const categoryIcon = mapCategoriesIcon(category, dataCategories);
   return (
-    <div className="overflow-y-scroll overflow-x-scroll flex flex-col items-center bg-secondary rounded-lg text-primary p-5 gap-2">
+    <div className="overflow-y-scroll overflow-x-scroll flex flex-col items-center bg-background rounded-lg p-5 gap-2">
       {coverImage && (
         <Image src={coverImage} alt={title} height={250} width={250} />
       )}
