@@ -17,6 +17,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { LoginSchema } from "@/lib/validation/auth";
+import Image from "next/image";
 
 const LoginForm = () => {
   const session = useSession();
@@ -73,19 +74,19 @@ const LoginForm = () => {
     }
   };
   return (
-    <div className=" flex flex-col items-center rounded-lg border w-fit p-6">
-      <h1 className="text-3xl font-bold mb-6">Fazer Login</h1>
+    <div className=" flex flex-col items-center w-2/6 p-6">
+      <Image src="/assets/logo.svg" alt="Logo" height={80} width={80} />
+      <h1 className="text-3xl font-bold my-10">Seja bem vindo</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
+          className="space-y-6 w-full"
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
@@ -102,7 +103,6 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="******" {...field} />
                 </FormControl>
@@ -110,35 +110,11 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex justify-center items-center">
-            <Button variant="outline" type="submit">
-              Login
-            </Button>
-          </div>
-        </form>
-
-        <div className="flex flex-col justify-center items-center">
-          <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-muted-foreground after:ml-4 after:block after:h-px after:flex-grow after:bg-muted-foreground">
-            ou
-          </div>
-          <div className="gap-3 flex mt-6 justify-center items-center w-full">
-            <Button
-              className=""
-              variant="outline"
-              onClick={githubSignInHandler}
-            >
-              Login com Github
-            </Button>
-            <Button
-              className=""
-              variant="outline"
-              onClick={googleSignInHandler}
-            >
-              Login com Google
-            </Button>
-          </div>
-          <p className="text-center text-sm mt-10">
-            Se você não possui uma conta
+          <Button type="submit" className="w-full">
+            Continue
+          </Button>
+          <p className="text-center text-sm">
+            Não tem uma conta?
             <Link
               className="text-muted-foreground hover:underline ml-2"
               href="/register"
@@ -146,6 +122,40 @@ const LoginForm = () => {
               Registrar
             </Link>
           </p>
+        </form>
+
+        <div className="flex flex-col w-full justify-center items-center">
+          <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-muted-foreground after:ml-4 after:block after:h-px after:flex-grow after:bg-muted-foreground">
+            ou
+          </div>
+          <div className="gap-3 flex flex-col mt-6 w-full">
+            <Button variant="outline" onClick={githubSignInHandler}>
+              <div className="flex gap-5 w-full items-center">
+                <Image
+                  src="/assets/github.svg"
+                  alt="Github"
+                  height={25}
+                  width={25}
+                />
+                <p>Continue com Github</p>
+              </div>
+            </Button>
+            <Button
+              className=""
+              variant="outline"
+              onClick={googleSignInHandler}
+            >
+              <div className="flex gap-5 w-full items-center">
+                <Image
+                  src="/assets/google.svg"
+                  alt="Google"
+                  height={25}
+                  width={25}
+                />
+                <p>Continue com Google</p>
+              </div>
+            </Button>
+          </div>
         </div>
       </Form>
     </div>
