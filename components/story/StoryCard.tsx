@@ -137,9 +137,9 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
       </CardHeader>
       <CardFooter>
         <Button variant="outline">
-          <Link href={`/stories/${id}`} className="hover:underline">
+          {/* <Link href={`/stories/${id}`} className="hover:underline">
             Ler história
-          </Link>
+          </Link> */}
         </Button>
       </CardFooter>
     </Card>
