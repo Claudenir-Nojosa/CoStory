@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+/* import { auth } from "@/lib/auth";
 import { db } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
@@ -35,3 +35,4 @@ export async function GET() {
     );
   }
 }
+ */
