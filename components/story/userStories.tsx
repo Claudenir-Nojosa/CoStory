@@ -1,4 +1,4 @@
-/* "use client";
+"use client";
 
 import StoryCard from "@/components/story/StoryCard";
 import { Story } from "@prisma/client";
@@ -41,4 +41,3 @@ const UserStories = () => {
 };
 
 export default UserStories;
- */
