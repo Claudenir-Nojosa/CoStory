@@ -29,6 +29,11 @@ export const siteConfig = {
       route: "/profile",
       label: "Perfil",
     },
+    {
+      imgURL: "/assets/logout.svg",
+      route: "",
+      label: "Sair",
+    },
   ],
 };
 
