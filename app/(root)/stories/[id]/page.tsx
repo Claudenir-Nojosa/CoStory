@@ -1,4 +1,4 @@
-import { db } from "@/lib/prismadb";
+/* import { db } from "@/lib/prismadb";
 import React, { FC } from "react";
 import {
   Card,
@@ -37,3 +37,4 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
 };
 
 export default StoryDetailPage;
+ */
