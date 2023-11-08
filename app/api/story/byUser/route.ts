@@ -9,7 +9,8 @@ interface Session {
 }
 export async function GET() {
   try {
-    const session = (await auth()) as Session;
+    
+    const session = await auth() as Session;
     if (!session) return new Response("No session found", { status: 401 });
 
     const stories = await db.story.findMany({
