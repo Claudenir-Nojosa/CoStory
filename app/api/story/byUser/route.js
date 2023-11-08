@@ -2,15 +2,10 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
-interface Session {
-  user: {
-    id: string;
-  };
-}
 export async function GET() {
   try {
     
-    const session = await auth() as Session;
+    const session = await auth();
     if (!session) return new Response("No session found", { status: 401 });
 
     const stories = await db.story.findMany({

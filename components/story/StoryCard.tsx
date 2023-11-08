@@ -47,17 +47,6 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
       return response.data;
     },
   });
-  // Fetch dos favoritos
-  const { data: dataFavorites, isLoading: isLoadingFavorites } = useQuery<
-    Favorite[]
-  >({
-    queryKey: ["favorites"],
-    queryFn: async () => {
-      const response = await axios.get("/api/story/byUser/favorites");
-      return response.data;
-    },
-  });
-  console.log(dataFavorites);
 
   const mapCategoriesIcon = (categoryId: any, dataCategories: any) => {
     if (dataCategories) {
@@ -81,34 +70,6 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
 
   const categoryIcon = mapCategoriesIcon(category, dataCategories);
 
-  // POST para Favoritar História
-  const { mutate: favoritarStory } = useMutation<
-    Favorite,
-    Error,
-    { userId: string; storyId: string }
-  >({
-    mutationFn: async (newFavoriteData) => {
-      const response = await axios.post(
-        "/api/story/byUser/favorites",
-        newFavoriteData
-      );
-      return response.data;
-    },
-    onSuccess: (data) => {
-      toast.success("História favoritada com sucesso!");
-    },
-    onError: (data) => {
-      toast.error("Aconteceu um erro ao favoritar a História, tente novamente");
-    },
-  });
-
-  const handleFavoritarClick = () => {
-    if (userId) {
-      const storyId = story.id;
-      favoritarStory({ userId, storyId });
-    }
-  };
-
   return (
     <Card className="max-w-sm flex flex-col items-center justify-center">
       <CardHeader>
@@ -123,9 +84,6 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
           >
             {isCompleted ? "Completo" : "Incompleto"}
           </Badge>
-          <Button variant="ghost" size="icon" onClick={handleFavoritarClick}>
-            <Heart />
-          </Button>
         </CardDescription>
         <Image
           src={coverImage}
