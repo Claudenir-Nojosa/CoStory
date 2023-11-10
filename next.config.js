@@ -22,6 +22,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "oaidalleapiprodscus.blob.core.windows.net",
+        port: "",
+        pathname: "/private/**",
+      },
+      {
+        protocol: "https",
         hostname: "github.com",
         port: "",
         pathname: "/Claudenir-Nojosa/**",

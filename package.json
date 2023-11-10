@@ -26,6 +26,7 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toggle": "^1.0.3",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-query": "^5.4.3",
     "@tiptap/extension-collaboration": "^2.1.12",
     "@tiptap/extension-collaboration-cursor": "^2.1.12",
