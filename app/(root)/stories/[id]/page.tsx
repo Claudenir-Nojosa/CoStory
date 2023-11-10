@@ -3,15 +3,13 @@ import React, { FC } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { auth } from "@/lib/auth";
 import {
   Tooltip,
@@ -19,6 +17,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface StoryDetailPageProps {
   params: {
@@ -66,30 +76,48 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
                     <div className="flex gap-4">
                       <Tooltip>
                         <TooltipTrigger>
-                          <Image
-                            src="/assets/edit.svg"
-                            alt="Editar"
-                            width={30}
-                            height={30}
-                          />
+                          <Link href={`/stories/edit/${story.id}`}>
+                            <Image
+                              src="/assets/edit.svg"
+                              alt="Editar"
+                              width={30}
+                              height={30}
+                            />
+                          </Link>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Editar história</p>
                         </TooltipContent>
                       </Tooltip>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Image
-                            src="/assets/delete.svg"
-                            alt="Editar"
-                            width={30}
-                            height={30}
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Deletar história</p>
-                        </TooltipContent>
-                      </Tooltip>
+                      <AlertDialog>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <AlertDialogTrigger>
+                              <Image
+                                src="/assets/delete.svg"
+                                alt="Editar"
+                                width={30}
+                                height={30}
+                              />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Você tem certeza disso?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Essa ação não pode ser desfeita. Isso irá remover permanentemente a história dos nossos servidores.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction>Continuar</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </TooltipTrigger>
+                          <TooltipContent>Deletar história</TooltipContent>
+                        </Tooltip>
+                      </AlertDialog>
                     </div>
                   </TooltipProvider>
                 ) : (

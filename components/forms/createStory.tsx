@@ -34,6 +34,17 @@ import {
 } from "../ui/select";
 import { ScrollArea } from "../ui/scroll-area";
 import StoryPreview from "../story/StoryPreview";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Label } from "../ui/label";
 
 export const StoryForm = () => {
   const router = useRouter();
@@ -106,6 +117,18 @@ export const StoryForm = () => {
     <div className="grid grid-cols-2 gap-3">
       <div>
         <h1 className="text-4xl font-bold mb-7">Criar história</h1>
+        <Sheet>
+          <SheetTrigger>Compartilhar</SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Faça edições colaborativas em tempo real!</SheetTitle>
+              <SheetDescription>
+                Compartilhe esse link para convidar uma pessoa para a edição:
+              </SheetDescription>
+              <Button>Link aqui</Button>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
