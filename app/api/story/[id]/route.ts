@@ -35,6 +35,10 @@ export async function PATCH(req: Request, context: contextProps) {
       },
       data: {
         title: body.title,
+        content: body.content,
+        coverImage: body.coverImage,
+        category: body.category,
+        isCompleted: body.isCompleted,
       },
     });
     return NextResponse.json({ message: "Update Success" }, { status: 200 });

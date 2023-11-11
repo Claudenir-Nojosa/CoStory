@@ -33,7 +33,21 @@ const EditStoryPage: FC<EditStoryPageProps> = ({ params }) => {
     );
   }
 
-  return <StoryForm />;
+  const initialFormValues = {
+    title: dataStory.title,
+    content: dataStory.content,
+    coverImage: dataStory.coverImage,
+    category: dataStory.category,
+    isCompleted: dataStory.isCompleted,
+  };
+  console.log(initialFormValues);
+  return (
+    <StoryForm
+      isEditing={true}
+      params={params}
+      initialValue={initialFormValues}
+    />
+  );
 };
 
 export default EditStoryPage;

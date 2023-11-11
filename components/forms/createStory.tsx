@@ -23,7 +23,7 @@ import { Category, Story } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Select,
@@ -45,16 +45,29 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Label } from "../ui/label";
+import { FormStoryInput } from "@/types";
 
-export const StoryForm = () => {
+interface FormStoryProps {
+  isEditing: boolean;
+  initialValue?: FormStoryInput;
+  params: {
+    id: string;
+  };
+}
+
+export const StoryForm: FC<FormStoryProps> = ({
+  isEditing,
+  initialValue,
+  params,
+}) => {
   const router = useRouter();
+  const { id } = params;
   const [generatedImage, setGeneratedImage] = useState<string>("");
   const [coverImageUrl, setCoverImageUrl] = useState<string>("");
 
   const form = useForm<z.infer<typeof StorySchema>>({
-    mode: "onChange",
     resolver: zodResolver(StorySchema),
-    defaultValues: initialValues,
+    defaultValues: initialValue,
   });
 
   const { data: dataCategories, isLoading: isLoadingCategories } = useQuery<
@@ -68,17 +81,23 @@ export const StoryForm = () => {
   });
 
   const defaultValue =
-    initialValues && dataCategories
+    initialValue && dataCategories
       ? dataCategories.find((category) => category.id)?.name || ""
       : "Selecione";
 
   const [realTimeData, setRealTimeData] = useState({
-    title: initialValues.title,
-    category: defaultValue,
-    coverImage: "",
-    content: initialValues.content,
-    isCompleted: false,
+    title: initialValue?.title,
+    category: initialValue?.category,
+    coverImage: initialValue?.coverImage,
+    content: initialValue?.content,
+    isCompleted: initialValue?.isCompleted,
   });
+
+  useEffect(() => {
+    if (initialValue) {
+      form.reset(initialValue);
+    }
+  }, [form, initialValue]);
 
   const { mutate: createStory } = useMutation<
     Story,
@@ -99,24 +118,44 @@ export const StoryForm = () => {
     },
   });
 
-  useEffect(() => {
-    if (generatedImage) {
-      setCoverImageUrl(generatedImage);
-      form.setValue("coverImage", generatedImage);
-    }
-  }, [form, generatedImage]);
-
+  const { mutate: editStory, status } = useMutation<
+    Story,
+    unknown,
+    z.infer<typeof StorySchema>
+  >({
+    mutationFn: async (newStoryEditData) => {
+      const response = await axios.patch(`/api/story/${id}`, newStoryEditData);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success("História editada com sucesso!");
+      router.push("/");
+      router.refresh();
+    },
+    onError: (data) => {
+      toast.error("Aconteceu um erro ao editar a história, tente novamente");
+    },
+    
+  });
+  
   const onSubmit: SubmitHandler<z.infer<typeof StorySchema>> = async (
     values
   ) => {
-    createStory(values);
-    console.log(values);
+    {
+      isEditing
+        ? editStory(values)
+        : createStory({ ...values, coverImage: generatedImage });
+    }
+    form.reset();
   };
 
+  console.log("Image value:", generatedImage);
   return (
     <div className="grid grid-cols-2 gap-3">
       <div>
-        <h1 className="text-4xl font-bold mb-7">Criar história</h1>
+        <h1 className="text-4xl font-bold mb-7">
+          {isEditing ? "Editar história" : "Criar História"}
+        </h1>
         <Sheet>
           <SheetTrigger>Compartilhar</SheetTrigger>
           <SheetContent>
@@ -142,6 +181,7 @@ export const StoryForm = () => {
                   <FormControl>
                     <Input
                       type="text"
+                      defaultValue={initialValue?.title}
                       placeholder="Título da história"
                       onChange={(e) => {
                         field.onChange(e);
@@ -173,6 +213,13 @@ export const StoryForm = () => {
                           type="text"
                           {...field}
                           value={coverImageUrl}
+                          onChange={(e: any) => {
+                            field.onChange(e);
+                            setRealTimeData({
+                              ...realTimeData,
+                              coverImage: e.target.value,
+                            });
+                          }}
                           className="hidden"
                         />
                         <Image
@@ -199,6 +246,7 @@ export const StoryForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Select
+                      defaultValue={initialValue?.category}
                       onValueChange={(value) => {
                         field.onChange(value);
                         setRealTimeData({
@@ -248,13 +296,14 @@ export const StoryForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Tiptap
-                      content={realTimeData.content}
-                      onChange={(newContent: any) =>
+                      content={initialValue?.content || ""}
+                      onChange={(newContent: any) => {
+                        field.onChange(newContent);
                         setRealTimeData({
                           ...realTimeData,
                           content: newContent,
-                        })
-                      }
+                        });
+                      }}
                       onImageGenerated={setGeneratedImage}
                     />
                   </FormControl>
@@ -281,7 +330,7 @@ export const StoryForm = () => {
             />
             <div className="flex justify-center items-center">
               <Button variant="outline" type="submit" className="w-full">
-                Criar
+                {isEditing ? "Editar" : "Criar"}
               </Button>
             </div>
           </form>
@@ -289,9 +338,9 @@ export const StoryForm = () => {
       </div>
       <div className="dotted">
         <StoryPreview
-          title={realTimeData.title}
-          content={realTimeData.content}
-          coverImage={generatedImage || realTimeData.coverImage}
+          title={realTimeData.title || ""}
+          content={realTimeData.content || ""}
+          coverImage={realTimeData.coverImage}
           category={realTimeData.category}
         />
       </div>

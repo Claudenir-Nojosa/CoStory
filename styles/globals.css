@@ -74,7 +74,6 @@
 }
 
 .dotted {
-  border: 0.5px solid #ccc;
   background-image: radial-gradient(circle, #c3b5f7 1px, transparent 1px),
     radial-gradient(circle, #c3b5f7 1px, transparent 1px);
   background-size: 20px 20px;
