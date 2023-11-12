@@ -10,7 +10,7 @@ interface CreateStoryPageProps {
 const CreateStory: FC<CreateStoryPageProps> = ({ params }) => {
   return (
     <section>
-      <StoryForm isEditing={false} params={params} />
+      <StoryForm isEditing={false} params={params} isCollaboration={false} />
     </section>
   );
 };

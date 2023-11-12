@@ -17,11 +17,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { StorySchema } from "@/lib/validation/story";
 import Tiptap from "../tiptap/Tiptap";
-import { initialValues } from "../tiptap/initialValue";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Category, Story } from "@prisma/client";
+import { Category, Contributor, Story } from "@prisma/client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
@@ -46,9 +45,17 @@ import {
 } from "@/components/ui/sheet";
 import { Label } from "../ui/label";
 import { FormStoryInput } from "@/types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { useCopyToClipboard } from "@/hooks/copy";
 
 interface FormStoryProps {
   isEditing: boolean;
+  isCollaboration: boolean;
   initialValue?: FormStoryInput;
   params: {
     id: string;
@@ -57,6 +64,7 @@ interface FormStoryProps {
 
 export const StoryForm: FC<FormStoryProps> = ({
   isEditing,
+  isCollaboration,
   initialValue,
   params,
 }) => {
@@ -64,6 +72,9 @@ export const StoryForm: FC<FormStoryProps> = ({
   const { id } = params;
   const [generatedImage, setGeneratedImage] = useState<string>("");
   const [coverImageUrl, setCoverImageUrl] = useState<string>("");
+  const pathname = usePathname();
+  const [value, copy] = useCopyToClipboard();
+  console.log(pathname);
 
   const form = useForm<z.infer<typeof StorySchema>>({
     resolver: zodResolver(StorySchema),
@@ -91,6 +102,7 @@ export const StoryForm: FC<FormStoryProps> = ({
     coverImage: initialValue?.coverImage,
     content: initialValue?.content,
     isCompleted: initialValue?.isCompleted,
+    storyId: params.id,
   });
 
   useEffect(() => {
@@ -135,17 +147,51 @@ export const StoryForm: FC<FormStoryProps> = ({
     onError: (data) => {
       toast.error("Aconteceu um erro ao editar a história, tente novamente");
     },
-    
   });
+
+  const { mutate: createCollaboration } = useMutation<
+    Contributor,
+    unknown,
+    z.infer<typeof StorySchema>
+  >({
+    mutationFn: async (newCollaborationData) => {
+      const response = await axios.post(
+        "/api/story/contributions",
+        newCollaborationData
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success(
+        "Colaboração enviada com sucesso! Aguarde a análise do dono da história."
+      );
+      router.push("/");
+      router.refresh();
+    },
+    onError: (data) => {
+      toast.error(
+        "Aconteceu um erro ao colaborar com a História, tente novamente"
+      );
+    },
+  });
+  const onSubmit: SubmitHandler<z.infer<typeof StorySchema>> = async (values) => {
+    const storyData = {
+      title: values.title,
+      content: values.content,
+      category: values.category,
+      isCompleted: values.isCompleted,
+      coverImage: generatedImage,
+      storyId: realTimeData.storyId,
+    };
   
-  const onSubmit: SubmitHandler<z.infer<typeof StorySchema>> = async (
-    values
-  ) => {
-    {
-      isEditing
-        ? editStory(values)
-        : createStory({ ...values, coverImage: generatedImage });
+    if (isEditing && !isCollaboration) {
+      editStory(storyData);
+    } else if (isEditing && isCollaboration) {
+      createCollaboration(storyData);
+    } else {
+      createStory(storyData);
     }
+  
     form.reset();
   };
 
@@ -153,21 +199,55 @@ export const StoryForm: FC<FormStoryProps> = ({
   return (
     <div className="grid grid-cols-2 gap-3">
       <div>
-        <h1 className="text-4xl font-bold mb-7">
-          {isEditing ? "Editar história" : "Criar História"}
-        </h1>
-        <Sheet>
-          <SheetTrigger>Compartilhar</SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Faça edições colaborativas em tempo real!</SheetTitle>
-              <SheetDescription>
-                Compartilhe esse link para convidar uma pessoa para a edição:
-              </SheetDescription>
-              <Button>Link aqui</Button>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
+        <div className="flex justify-center items-center gap-10">
+          <h1 className="text-4xl font-bold mb-7">
+            {isEditing && !isCollaboration
+              ? "Editar história"
+              : isEditing && isCollaboration
+              ? "Colaborar com a história"
+              : "Criar História"}
+          </h1>
+          <div className="flex justify-end mb-5">
+            {isCollaboration && (
+              <TooltipProvider>
+                <div>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Sheet>
+                        <SheetTrigger>
+                          <Image
+                            src="/assets/share.svg"
+                            alt="Compartilhar"
+                            height={30}
+                            width={30}
+                          />
+                        </SheetTrigger>
+                        <SheetContent>
+                          <SheetHeader>
+                            <SheetTitle>
+                              Faça edições colaborativas em tempo real!
+                            </SheetTitle>
+                            <SheetDescription>
+                              Compartilhe esse link para convidar uma pessoa
+                              para a edição:
+                            </SheetDescription>
+                            <Button onClick={() => copy(window.location.href)}>
+                              Copiar link
+                            </Button>
+                          </SheetHeader>
+                        </SheetContent>
+                      </Sheet>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Colaborar com mais de uma pessoa!</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </TooltipProvider>
+            )}
+          </div>
+        </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -330,7 +410,11 @@ export const StoryForm: FC<FormStoryProps> = ({
             />
             <div className="flex justify-center items-center">
               <Button variant="outline" type="submit" className="w-full">
-                {isEditing ? "Editar" : "Criar"}
+                {isEditing && !isCollaboration
+                  ? "Editar"
+                  : isCollaboration && isEditing
+                  ? "Enviar colaboração"
+                  : "Criar"}
               </Button>
             </div>
           </form>

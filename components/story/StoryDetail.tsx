@@ -30,6 +30,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import DeleteStory from "./DeleteStory";
+import Contributions from "./Contributions";
 
 interface StoryDetailPageProps {
   params: {
@@ -129,12 +130,16 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <Image
-                          src="/assets/contribute.svg"
-                          alt="Editar"
-                          width={30}
-                          height={30}
-                        />
+                        <Link href={`/stories/collaboration/${story.id}`}>
+                          <div>
+                            <Image
+                              src="/assets/contribute.svg"
+                              alt="Contribuir"
+                              width={30}
+                              height={30}
+                            />
+                          </div>
+                        </Link>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Contribuir com a história</p>
@@ -169,7 +174,9 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
         </CardContent>
         <CardFooter className="mt-8 text-gray-500"></CardFooter>
       </Card>
-      <div>TOC</div>
+      <div className="w-1/3">
+        <Contributions />
+      </div>
     </MaxWidthWrapper>
   );
 };

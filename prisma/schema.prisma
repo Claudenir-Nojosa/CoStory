@@ -87,6 +87,9 @@ model Contributor {
   story     Story    @relation(fields: [storyId], references: [id])
   userId    String   @db.ObjectId
   storyId   String   @db.ObjectId
+  isAccepted Boolean
+  newContent  String  
+  isCompleted Boolean
 }
 
 model Favorite {

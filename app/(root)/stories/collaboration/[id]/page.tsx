@@ -7,13 +7,13 @@ import React, { FC } from "react";
 import Loading from "@/components/shared/Loading";
 import { StoryForm } from "@/components/forms/createStory";
 
-interface EditStoryPageProps {
+interface ColabborationStoryPageProps {
   params: {
     id: string;
   };
 }
 
-const EditStoryPage: FC<EditStoryPageProps> = ({ params }) => {
+const CollaborationStoryPage: FC<ColabborationStoryPageProps> = ({ params }) => {
   const { id } = params;
 
   const { data: dataStory, isLoading: isLoadingStory } = useQuery({
@@ -40,15 +40,15 @@ const EditStoryPage: FC<EditStoryPageProps> = ({ params }) => {
     category: dataStory.category,
     isCompleted: dataStory.isCompleted,
   };
-  console.log(initialFormValues);
+
   return (
     <StoryForm
-      isCollaboration={false}
       isEditing={true}
       params={params}
       initialValue={initialFormValues}
+      isCollaboration={true}
     />
   );
 };
 
-export default EditStoryPage;
+export default CollaborationStoryPage;
