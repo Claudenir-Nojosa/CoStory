@@ -28,7 +28,7 @@ const UserStories = () => {
       <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 ">
         {dataStories?.length === 0 ? (
           <p className="text-2xl font-semibold text-muted-foreground">
-            😳 Nossa, como está vazio aqui...
+            Ops, como está vazio aqui...
           </p>
         ) : (
           dataStories?.map((story) => (
