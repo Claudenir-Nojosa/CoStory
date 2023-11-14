@@ -75,10 +75,13 @@ const ContributionDetailed: FC<ContributionDetailPageProps> = ({ params }) => {
   console.log(dataContribution);
 
   const { mutate: acceptContribution } = useMutation<Contributor, unknown>({
-    mutationFn: async (acceptContributionData) => {
+    mutationFn: async () => {
+      const patchBody = {
+        isAccepted: true,
+      };
       const response = await axios.patch(
         `/api/story/contributions/${dataContribution?.id}`,
-        acceptContributionData
+        patchBody
       );
       return response.data;
     },

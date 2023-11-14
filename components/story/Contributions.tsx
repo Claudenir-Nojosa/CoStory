@@ -65,14 +65,55 @@ const Contributions: FC<ContributionsProps> = ({}) => {
               dataContributions
                 .filter((contribution: any) => contribution.isAccepted)
                 .map((contribution: any) => (
-                  <div key={contribution.id}>
-                    <p>{contribution.user.name}</p>
-                    <p>{contribution.newContent}</p>
-                  </div>
+                  <Card
+                    key={contribution.id}
+                    className="flex mb-5 justify-start items-center"
+                  >
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="text-center">
+                            Colaborador
+                          </TableHead>
+                          <TableHead className="text-center">Data</TableHead>
+                          <TableHead className="text-right">...</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            <div className="flex items-center flex-col">
+                              {contribution.user && (
+                                <Avatar>
+                                  <AvatarImage src={contribution.user.image} />
+                                </Avatar>
+                              )}
+                              <p>{contribution.user.name}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {formatDate(contribution.createdAt)}
+                          </TableCell>
+                          <TableCell>
+                            <Link
+                              href={`/stories/contribution/${contribution.id}`}
+                            >
+                              <Image
+                                src="/assets/lupa.svg"
+                                alt="Lupa"
+                                height={20}
+                                width={20}
+                              />
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </Card>
                 ))}
             {dataContributions &&
               dataContributions.filter(
-                (contribution: any) => contribution.isAccepted
+                (contribution: any) => !contribution.isAccepted
               ).length === 0 && <p>Ops, como está vazio aqui.</p>}
           </AccordionContent>
         </AccordionItem>

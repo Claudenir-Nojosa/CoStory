@@ -11,13 +11,14 @@ interface contextProps {
 export async function PATCH(req: Request, context: contextProps) {
   try {
     const { params } = context;
-    const body = await req.json();
+
+    const { isAccepted } = await req.json();
     await db.contributor.update({
       where: {
         id: params.id,
       },
       data: {
-        isAccepted: body.isAccepted,
+        isAccepted,
       },
     });
     return NextResponse.json(
