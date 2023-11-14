@@ -1,3 +1,5 @@
+"use client";
+
 import { db } from "@/lib/prismadb";
 import React, { FC } from "react";
 import {
@@ -42,32 +44,16 @@ import {
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Contributor } from "@prisma/client";
+import axios from "axios";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 interface ContributionDetailPageProps {
   params: {
     id: string;
   };
-}
-
-async function getContribution(id: string) {
-  const response = await db.contributor.findFirst({
-    where: {
-      id: id,
-    },
-    select: {
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-      isCompleted: true,
-      userId: true,
-      storyId: true,
-      isAccepted: true,
-      newContent: true,
-      user: true,
-      story: true,
-    },
-  });
-  return response;
 }
 
 const formatDate = (date: string | Date) => {
@@ -77,33 +63,58 @@ const formatDate = (date: string | Date) => {
       : date;
   return format(parsedDate, "dd/MM/yyyy", { locale: ptBR });
 };
-const ContributionDetailed: FC<ContributionDetailPageProps> = async ({
-  params,
-}) => {
-  const contribution = await getContribution(params.id);
-  const session = await auth();
+
+const ContributionDetailed: FC<ContributionDetailPageProps> = ({ params }) => {
+  const { data: dataContribution, isLoading: isLoadingStory } = useQuery({
+    queryKey: ["contribution", params.id],
+    queryFn: async () => {
+      const response = await axios.get(`/api/story/contributions/${params.id}`);
+      return response.data;
+    },
+  });
+  console.log(dataContribution);
+
+  const { mutate: acceptContribution } = useMutation<Contributor, unknown>({
+    mutationFn: async (acceptContributionData) => {
+      const response = await axios.patch(
+        `/api/story/contributions/${dataContribution?.id}`,
+        acceptContributionData
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success("Contribuição aceita com sucesso!");
+    },
+    onError: (data) => {
+      toast.error(
+        "Aconteceu um erro ao aceitar a contribuição, tente novamente"
+      );
+    },
+  });
+
+  const { data: session, status } = useSession();
   return (
     <MaxWidthWrapper>
-      {contribution && (
+      {dataContribution && (
         <Card>
           <CardHeader>
             <div className="flex gap-2 flex-col items-center">
               <Avatar className="ml-4">
-                {typeof contribution.user.image === "string" ? (
-                  <AvatarImage src={contribution.user.image} />
+                {typeof dataContribution.user.image === "string" ? (
+                  <AvatarImage src={dataContribution.user.image} />
                 ) : (
                   ""
                 )}
               </Avatar>
               <p className="text-2xl font-semibold">
-                Contribuição de: {contribution.user.name}
+                Contribuição de: {dataContribution.user.name}
               </p>
               <p className="text-muted-foreground font-semibold">
-                Criado dia: {formatDate(contribution.createdAt)}
+                Criado dia: {formatDate(dataContribution.createdAt)}
               </p>
               <div className="flex gap-2">
                 <h3 className="text-muted-foreground ">Está aceita ?</h3>
-                <Badge> {contribution.isAccepted ? "Sim" : "Não"}</Badge>
+                <Badge> {dataContribution.isAccepted ? "Sim" : "Não"}</Badge>
               </div>
               <Accordion
                 className="justify-center flex"
@@ -117,7 +128,7 @@ const ContributionDetailed: FC<ContributionDetailPageProps> = async ({
                   <AccordionContent>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: contribution.story.content,
+                        __html: dataContribution.story.content,
                       }}
                     />
                   </AccordionContent>
@@ -129,24 +140,26 @@ const ContributionDetailed: FC<ContributionDetailPageProps> = async ({
           <CardContent className="mt-10 flex flex-col gap-4">
             <h2 className="text-xl font-semibold">Colaboração da história:</h2>
             <div
-              dangerouslySetInnerHTML={{ __html: contribution.newContent }}
+              dangerouslySetInnerHTML={{ __html: dataContribution.newContent }}
             />
           </CardContent>
           <CardFooter className="flex justify-end">
-            {contribution.story.userId === session?.user.id ? (
+            {dataContribution.story.userId === session?.user.id ? (
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Link href="/">
-                      <Button size={"icon"} variant={"link"}>
-                        <Image
-                          src="/assets/accept.svg"
-                          alt="Aceitar contribuição"
-                          width={30}
-                          height={30}
-                        />
-                      </Button>
-                    </Link>
+                    <Button
+                      size={"icon"}
+                      variant={"link"}
+                      onClick={() => acceptContribution()}
+                    >
+                      <Image
+                        src="/assets/accept.svg"
+                        alt="Aceitar contribuição"
+                        width={30}
+                        height={30}
+                      />
+                    </Button>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Implementar para a história original</p>
