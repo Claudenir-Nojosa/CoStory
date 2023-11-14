@@ -113,7 +113,9 @@ const Contributions: FC<ContributionsProps> = ({}) => {
                             {formatDate(contribution.createdAt)}
                           </TableCell>
                           <TableCell>
-                            <Link href="/">
+                            <Link
+                              href={`/stories/contribution/${contribution.id}`}
+                            >
                               <Image
                                 src="/assets/lupa.svg"
                                 alt="Lupa"
