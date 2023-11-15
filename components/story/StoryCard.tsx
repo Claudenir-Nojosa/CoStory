@@ -84,6 +84,14 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
           >
             {isCompleted ? "Completo" : "Incompleto"}
           </Badge>
+          <Button size={"icon"} variant={"ghost"}>
+            <Image
+              src="/assets/heart.svg"
+              alt="Favoritar"
+              width={30}
+              height={30}
+            />
+          </Button>
         </CardDescription>
         <Image
           src={coverImage}

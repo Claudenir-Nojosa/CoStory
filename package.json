@@ -63,6 +63,7 @@
     "react-hook-form": "^7.47.0",
     "sonner": "^1.1.0",
     "sooner": "^1.1.4",
+    "stripe": "^14.4.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "typewriter-effect": "^2.21.0",

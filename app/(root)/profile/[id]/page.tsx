@@ -9,8 +9,12 @@ interface pageProps {
   };
 }
 
-const page: FC<pageProps> = ({ params }) => {
-  return <UserEdit params={params} />;
+const page: FC<pageProps> = async ({ params }) => {
+  return (
+    <div>
+      <UserEdit params={params} />
+    </div>
+  );
 };
 
 export default page;
