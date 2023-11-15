@@ -91,10 +91,6 @@ export const StoryForm: FC<FormStoryProps> = ({
     },
   });
 
-  const defaultValue =
-    initialValue && dataCategories
-      ? dataCategories.find((category) => category.id)?.name || ""
-      : "Selecione";
 
   const [realTimeData, setRealTimeData] = useState({
     title: initialValue?.title,

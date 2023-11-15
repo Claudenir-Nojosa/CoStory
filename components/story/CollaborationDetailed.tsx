@@ -49,6 +49,7 @@ import { Contributor } from "@prisma/client";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface ContributionDetailPageProps {
   params: {
@@ -65,6 +66,7 @@ const formatDate = (date: string | Date) => {
 };
 
 const ContributionDetailed: FC<ContributionDetailPageProps> = ({ params }) => {
+  const router = useRouter();
   const { data: dataContribution, isLoading: isLoadingStory } = useQuery({
     queryKey: ["contribution", params.id],
     queryFn: async () => {
@@ -76,17 +78,31 @@ const ContributionDetailed: FC<ContributionDetailPageProps> = ({ params }) => {
 
   const { mutate: acceptContribution } = useMutation<Contributor, unknown>({
     mutationFn: async () => {
+      console.log("Accepting Contribution...");
+      console.log("newContent:", dataContribution?.newContent);
+      console.log("storyId:", dataContribution?.storyId);
       const patchBody = {
         isAccepted: true,
+        storyId: dataContribution?.storyId,
+        newContent: dataContribution?.newContent,
       };
       const response = await axios.patch(
         `/api/story/contributions/${dataContribution?.id}`,
         patchBody
       );
+      console.log("mainStoryResponse:", response.data);
       return response.data;
     },
-    onSuccess: (data) => {
-      toast.success("Contribuição aceita com sucesso!");
+    onSuccess: async (data) => {
+      // If the contribution is accepted, update the main story with new content
+      const mainStoryResponse = await axios.patch(
+        `/api/story/${dataContribution?.storyId}`,
+        { additionalContent: dataContribution?.newContent }
+      );
+      router.push(`/stories/${dataContribution.storyId}`);
+      console.log("Main Story Response:", mainStoryResponse);
+      toast.success("Contribuição aceita com sucesso, recarregue a página para visualizar a alteração.");
+      return mainStoryResponse.data;
     },
     onError: (data) => {
       toast.error(

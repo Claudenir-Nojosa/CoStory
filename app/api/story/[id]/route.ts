@@ -23,24 +23,40 @@ export async function DELETE(req: Request, context: contextProps) {
       { message: "Could Not Delete Story" },
       { status: 500 }
     );
-  }
+  } 
 }
+
 export async function PATCH(req: Request, context: contextProps) {
   try {
     const { params } = context;
     const body = await req.json();
-    await db.story.update({
-      where: {
-        id: params.id,
-      },
-      data: {
-        title: body.title,
-        content: body.content,
-        coverImage: body.coverImage,
-        category: body.category,
-        isCompleted: body.isCompleted,
-      },
-    });
+    
+    console.log('Additional Content:', body.additionalContent); 
+
+    if (body.additionalContent) {
+      await db.story.update({
+        where: {
+          id: params.id,
+        },
+        data: {
+          additionalContent: body.additionalContent,
+        },
+      });
+    } else {
+      await db.story.update({
+        where: {
+          id: params.id,
+        },
+        data: {
+          title: body.title,
+          content: body.content,
+          coverImage: body.coverImage,
+          category: body.category,
+          isCompleted: body.isCompleted,
+        },
+      });
+    }
+
     return NextResponse.json({ message: "Update Success" }, { status: 200 });
   } catch (error) {
     console.log("erro:", error);

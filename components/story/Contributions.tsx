@@ -92,7 +92,7 @@ const Contributions: FC<ContributionsProps> = ({}) => {
                             </div>
                           </TableCell>
                           <TableCell>
-                            {formatDate(contribution.createdAt)}
+                            {formatDate(contribution.updatedAt)}
                           </TableCell>
                           <TableCell>
                             <Link
@@ -113,7 +113,7 @@ const Contributions: FC<ContributionsProps> = ({}) => {
                 ))}
             {dataContributions &&
               dataContributions.filter(
-                (contribution: any) => !contribution.isAccepted
+                (contribution: any) => contribution.isAccepted
               ).length === 0 && <p>Ops, como está vazio aqui.</p>}
           </AccordionContent>
         </AccordionItem>
@@ -151,7 +151,7 @@ const Contributions: FC<ContributionsProps> = ({}) => {
                             </div>
                           </TableCell>
                           <TableCell>
-                            {formatDate(contribution.createdAt)}
+                            {formatDate(contribution.updatedAt)}
                           </TableCell>
                           <TableCell>
                             <Link

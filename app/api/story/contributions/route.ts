@@ -47,6 +47,7 @@ export async function GET() {
       select: {
         id: true,
         createdAt: true,
+        updatedAt: true,
         userId: true,
         user: true,
         storyId: true,

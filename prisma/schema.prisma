@@ -56,20 +56,21 @@ model Session {
 }
 
 model Story {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  title       String
-  category    String
-  coverImage  String
-  isCompleted Boolean
-  content     String
-  userId      String        @db.ObjectId
-  User        User          @relation(fields: [userId], references: [id])
-  Contributor Contributor[]
-  Favorite    Favorite[]
-  Category    Category      @relation(fields: [categoryId], references: [id])
-  categoryId  String        @db.ObjectId
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  title             String
+  category          String
+  coverImage        String
+  isCompleted       Boolean
+  content           String
+  userId            String        @db.ObjectId
+  User              User          @relation(fields: [userId], references: [id])
+  Contributor       Contributor[]
+  Favorite          Favorite[]
+  Category          Category      @relation(fields: [categoryId], references: [id])
+  categoryId        String        @db.ObjectId
+  additionalContent String?
 }
 
 model Category {
@@ -80,22 +81,22 @@ model Category {
 }
 
 model Contributor {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  story     Story    @relation(fields: [storyId], references: [id])
-  userId    String   @db.ObjectId
-  storyId   String   @db.ObjectId
-  isAccepted Boolean
-  newContent  String  
-  isCompleted Boolean
-}
-
-model Favorite {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id])
   story       Story    @relation(fields: [storyId], references: [id])
   userId      String   @db.ObjectId
   storyId     String   @db.ObjectId
+  isAccepted  Boolean
+  newContent  String
+  isCompleted Boolean
+}
+
+model Favorite {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+  story   Story  @relation(fields: [storyId], references: [id])
+  userId  String @db.ObjectId
+  storyId String @db.ObjectId
 }

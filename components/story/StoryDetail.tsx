@@ -52,6 +52,7 @@ async function getStory(id: string) {
       content: true,
       Contributor: true,
       User: true,
+      additionalContent: true,
     },
   });
   return response;
@@ -165,11 +166,18 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
           </div>
         </CardHeader>
         <CardContent className="text-secondary-foreground">
-          {story?.content && (
+          {story?.additionalContent ? (
+            <div
+              className="mt-10"
+              dangerouslySetInnerHTML={{ __html: story?.additionalContent }}
+            />
+          ) : story?.content ? (
             <div
               className="mt-10"
               dangerouslySetInnerHTML={{ __html: story?.content }}
             />
+          ) : (
+            ""
           )}
         </CardContent>
         <CardFooter className="mt-8 text-gray-500"></CardFooter>
