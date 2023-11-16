@@ -67,6 +67,7 @@ const formatDate = (date: string | Date) => {
 
 const ContributionDetailed: FC<ContributionDetailPageProps> = ({ params }) => {
   const router = useRouter();
+  
   const { data: dataContribution, isLoading: isLoadingStory } = useQuery({
     queryKey: ["contribution", params.id],
     queryFn: async () => {
