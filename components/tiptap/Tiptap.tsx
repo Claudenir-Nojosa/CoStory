@@ -115,12 +115,15 @@ export default function Tiptap({
       const contentImage = editor?.getHTML();
 
       if (typeof contentImage === "string") {
+
+        const last1000Characters = contentImage.slice(-1000);
+
         const resp = await fetch("/api/openai", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prompt: contentImage }),
+          body: JSON.stringify({ prompt: last1000Characters }),
         });
 
         if (!resp.ok) {

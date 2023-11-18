@@ -12,6 +12,7 @@ export async function GET() {
         coverImage: true,
         isCompleted: true,
         User: true,
+        Contributor: true,
       },
       orderBy: {
         updatedAt: "desc",

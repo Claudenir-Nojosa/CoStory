@@ -1,21 +1,27 @@
 import Link from "next/link";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
+import { ArrowRight } from "lucide-react";
 
 const CTA = () => {
   return (
-    <div className="flex flex-col items-center bg-white px-6 py-16 text-center">
-      <h2 className="text-3xl font-bold text-purple-500 sm:text-4xl md:text-5xl">
-        asdkskd
+    <div className="flex flex-col items-center px-6 py-16 text-center">
+      <h2 className="text-3xl font-bold  sm:text-4xl md:text-5xl">
+        Comece a criação de incríveis histórias colaborativas
       </h2>
-      <p className="mt-4 max-w-2xl text-lg text-gray-700 sm:text-xl md;text-2xl">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus
-        explicabo error ea animi sint voluptatum vero libero rem repellendus!
-        Enim natus asperiores molestiae assumenda animi similique ullam unde cum
-        consectetur.
+      <p className="mt-4 max-w-2xl text-lg sm:text-xl md;text-2xl text-muted-foreground">
+        Junte-se a nossa comunidade e liberte sua criatividade criando e contribuindo com histórias cativantes. Comece agora!
       </p>
-      <Link href="/">
-        <Button className="text-sm sm:text-lg px-4 py-5 mt-4">Create</Button>
+      <Link
+        className={`bg-gradient-to-r from-secondary-foreground to-muted-foreground ${buttonVariants(
+          {
+            size: "lg",
+            className: "mt-5",
+          }
+        )}`}
+        href="/login"
+      >
+        Criar conta <ArrowRight className="ml-2 h-5 w-5" />
       </Link>
     </div>
   );

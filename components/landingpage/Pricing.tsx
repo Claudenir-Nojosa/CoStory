@@ -11,12 +11,12 @@ import { Button } from "../ui/button";
 
 const Pricing = () => {
   return (
-    <div className="bg-gradient-to-r from-purple-400 to-red-500 py-16">
-      <h2 className="text-5xl text-white font-bold text-center mb-8">asdsd</h2>
-      <div className="flex flex-col justify-center mx-6 space-y-6 sm:space-x-8 sm;flex-row sm:space-y-0">
+    <div className="mb-40 mt-10">
+      <h2 className="text-5xl text-white font-bold text-center mb-8">Preço</h2>
+      <div className="flex justify-center mx-6 space-y-6 sm:space-x-8 sm;flex-row sm:space-y-0">
         <Card className="text-center">
           <CardHeader>
-            <CardDescription className="text-xl">Free</CardDescription>
+            <CardDescription className="text-xl">Gratuito</CardDescription>
             <CardTitle className="text-4xl">ASDSALM</CardTitle>
           </CardHeader>
           <CardContent className="mt-4">
@@ -28,7 +28,7 @@ const Pricing = () => {
         </Card>
         <Card className="text-center">
           <CardHeader>
-            <CardDescription className="text-xl">Free</CardDescription>
+            <CardDescription className="text-xl">PRO</CardDescription>
             <CardTitle className="text-4xl">ASDSALM</CardTitle>
           </CardHeader>
           <CardContent className="mt-4">

@@ -91,7 +91,6 @@ export const StoryForm: FC<FormStoryProps> = ({
     },
   });
 
-
   const [realTimeData, setRealTimeData] = useState({
     title: initialValue?.title,
     category: initialValue?.category,
@@ -170,7 +169,9 @@ export const StoryForm: FC<FormStoryProps> = ({
       );
     },
   });
-  const onSubmit: SubmitHandler<z.infer<typeof StorySchema>> = async (values) => {
+  const onSubmit: SubmitHandler<z.infer<typeof StorySchema>> = async (
+    values
+  ) => {
     const storyData = {
       title: values.title,
       content: values.content,
@@ -179,7 +180,7 @@ export const StoryForm: FC<FormStoryProps> = ({
       coverImage: generatedImage,
       storyId: realTimeData.storyId,
     };
-  
+
     if (isEditing && !isCollaboration) {
       editStory(storyData);
     } else if (isEditing && isCollaboration) {
@@ -187,7 +188,7 @@ export const StoryForm: FC<FormStoryProps> = ({
     } else {
       createStory(storyData);
     }
-  
+
     form.reset();
   };
 
@@ -288,12 +289,12 @@ export const StoryForm: FC<FormStoryProps> = ({
                         <Input
                           type="text"
                           {...field}
-                          value={coverImageUrl}
-                          onChange={(e: any) => {
-                            field.onChange(e);
+                          value={generatedImage} 
+                          onChange={(e) => {
+                            field.onChange(e); 
                             setRealTimeData({
                               ...realTimeData,
-                              coverImage: e.target.value,
+                              coverImage: generatedImage, 
                             });
                           }}
                           className="hidden"
@@ -420,7 +421,7 @@ export const StoryForm: FC<FormStoryProps> = ({
         <StoryPreview
           title={realTimeData.title || ""}
           content={realTimeData.content || ""}
-          coverImage={realTimeData.coverImage}
+          coverImage={realTimeData.coverImage || generatedImage}
           category={realTimeData.category}
         />
       </div>

@@ -47,6 +47,7 @@ async function getStory(id: string) {
       id: true,
       title: true,
       coverImage: true,
+      updatedAt: true,
       isCompleted: true,
       category: true,
       content: true,
@@ -61,6 +62,13 @@ async function getStory(id: string) {
 const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
   const story = await getStory(params.id);
   const session = await auth();
+
+  const hasAcceptedContributor =
+    story?.Contributor?.some(
+      (contributor) =>
+        contributor.isAccepted && contributor.updatedAt > story.updatedAt
+    ) ?? false;
+
   return (
     <MaxWidthWrapper className="flex gap-10">
       <Card className="w-3/4">
@@ -166,18 +174,18 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
           </div>
         </CardHeader>
         <CardContent className="text-secondary-foreground">
-          {story?.additionalContent ? (
+          {!hasAcceptedContributor ? (
             <div
               className="mt-10"
-              dangerouslySetInnerHTML={{ __html: story?.additionalContent }}
-            />
-          ) : story?.content ? (
-            <div
-              className="mt-10"
-              dangerouslySetInnerHTML={{ __html: story?.content }}
+              dangerouslySetInnerHTML={{ __html: story?.content ?? "" }}
             />
           ) : (
-            ""
+            <div
+              className="mt-10"
+              dangerouslySetInnerHTML={{
+                __html: story?.additionalContent ?? "",
+              }}
+            />
           )}
         </CardContent>
         <CardFooter className="mt-8 text-gray-500"></CardFooter>

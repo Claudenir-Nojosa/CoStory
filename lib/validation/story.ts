@@ -9,9 +9,6 @@ export const StorySchema = z.object({
     .string({ required_error: "Insira um conteúdo" })
     .min(1, { message: "Insira um conteúdo" }),
   category: z.string({ required_error: "Selecione uma opção." }),
-  coverImage: z
-    .string({ required_error: "Gere uma foto de capa" })
-    .min(2, { message: "Insira uma capa" })
-    .optional(),
+  coverImage: z.string().optional(),
   isCompleted: z.boolean().default(false),
 });
