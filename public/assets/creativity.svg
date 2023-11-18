@@ -1,0 +1,11 @@
+<?xml version="1.0" ?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg fill="#000000" width="800px" height="800px" viewBox="0 0 64 64" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        path {
+            fill: black;
+        }
+        @media (prefers-color-scheme: dark) {
+            path { fill: white; }
+        }
+    </style>
+    <title/><path d="M38,38a2,2,0,0,0-2-2H28a2,2,0,0,0,0,4h8A2,2,0,0,0,38,38Z"/><path d="M35.33331,41H28.66669a2.03333,2.03333,0,0,0,0,4h6.66662a2.03333,2.03333,0,0,0,0-4Z"/><path d="M3,53.30518V62H61V53.44165C61,49.33173,57.66821,48,53.55829,48H43L32,58,20,48H10.30524C6.27063,48,3,49.27063,3,53.30518Z"/><rect height="5" width="2" x="31" y="47"/><rect height="3" width="2" x="35" y="47"/><rect height="3" width="2" x="27" y="47"/><rect height="6.7082" transform="translate(3.71409 15.00952) rotate(-63.43495)" width="2.00023" x="12.99988" y="1.1459"/><rect height="1.99928" transform="translate(1.13294 15.98248) rotate(-18.43231)" width="6.70841" x="46.46366" y="3.50036"/><rect height="2" width="7" x="6" y="15"/><rect height="2" width="7" x="51" y="15"/><rect height="2.00023" transform="translate(-12.26757 9.03375) rotate(-26.56505)" width="6.7082" x="9.6459" y="29.49988"/><rect height="6.7082" transform="translate(0.91208 62.47577) rotate(-63.43495)" width="2.00023" x="49.99988" y="27.1459"/><path d="M26,31.75l1.29,3.38h9.42L38,31.75a15,15,0,1,0-12,0Zm7-8.043A.99928.99928,0,0,1,33.293,23l5-5L39.707,19.41406,35,24.12109V33.707H33ZM25.707,18l5,5a.99928.99928,0,0,1,.293.707v10H29V24.12109l-4.707-4.707Z"/></svg>

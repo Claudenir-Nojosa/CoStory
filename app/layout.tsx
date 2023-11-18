@@ -11,7 +11,7 @@ import BottomBar from "@/components/shared/BottomBar";
 import { siteConfig } from "@/config/site";
 import { auth } from "@/lib/auth";
 import { Toaster } from "sonner";
-import LandingPage from "@/components/landingpage/LandingPage";
+import Footer from "@/components/landingpage/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,18 +49,14 @@ export default async function RootLayout({
             >
               <div className="flex">
                 {session?.user.id ? <LeftSidebar /> : ""}
-                {session?.user.id ? (
-                  <div className="flex flex-col flex-1">
-                    <NavBar />
-                    <MaxWidthWrapper className="mb-12 mt-14 sm:mt-15 text-center">
-                      {children}
-                    </MaxWidthWrapper>
-                  </div>
-                ) : (
-                  <div className="flex flex-col flex-1">
-                    <LandingPage />
-                  </div>
-                )}
+                <div className="flex flex-col flex-1">
+                  <NavBar />
+                  <MaxWidthWrapper className="mb-12 mt-14 sm:mt-15">
+                    {children}
+                  </MaxWidthWrapper>
+                  {!session?.user.id ? <Footer /> : ""}
+                </div>
+
                 {session?.user.id ? <BottomBar /> : ""}
               </div>
             </ThemeProvider>

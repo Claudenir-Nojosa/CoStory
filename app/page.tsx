@@ -6,7 +6,7 @@ const Page = async () => {
   const session: any = await auth();
 
   return (
-    <section className="text-3xl font-semibold">
+    <section>
       {!session?.user ? (
         <LandingPage />
       ) : (

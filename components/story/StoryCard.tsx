@@ -133,7 +133,7 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
   return (
     <Card className="max-w-sm flex flex-col items-center justify-center">
       <CardHeader>
-        <CardTitle className="mb-5">{title}</CardTitle>
+        <CardTitle className="mb-5 font-bold">{title}</CardTitle>
         <CardDescription className="flex  gap-2 justify-center items-center text-center">
           <Badge variant="outline">{categoryIcon}</Badge>
           <Badge

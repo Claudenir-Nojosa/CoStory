@@ -18,7 +18,7 @@ const Stories = () => {
   
   if (isLoadingStories) {
     return (
-      <MaxWidthWrapper className="flex justify-center items-center mt-56">
+      <MaxWidthWrapper className="flex justify-center items-center mt-56 ">
         <Loading />
       </MaxWidthWrapper>
     );
@@ -26,7 +26,7 @@ const Stories = () => {
 
   return (
     <div>
-      <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 ">
+      <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 font-bold text-center">
         {dataStories?.map((story) => (
           <StoryCard key={story.id} story={story} />
         ))}

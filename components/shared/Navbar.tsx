@@ -17,6 +17,7 @@ import { signOut, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
+import Image from "next/image";
 
 export function NavBar() {
   const session = useSession();
@@ -27,7 +28,17 @@ export function NavBar() {
     router.refresh();
   };
   return (
-    <div className="navbar justify-end ">
+    <div className="navbar justify-between ">
+      <NavigationMenu>
+        <Link href="/">
+          <Image
+            src="/assets/logo.svg"
+            alt="Logo"
+            height={50}
+            width={50}
+          />
+        </Link>
+      </NavigationMenu>
       <NavigationMenu>
         <NavigationMenuList className="flex gap-3">
           <NavigationMenuItem>
