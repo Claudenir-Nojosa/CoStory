@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Card,
@@ -9,10 +11,17 @@ import {
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Pricing = () => {
   return (
-    <div className="mb-40 mt-10">
+    <motion.div
+      initial={{ opacity: 0, y: -100 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -100 }}
+      transition={{ duration: 1.2 }}
+      className="mb-40 mt-10"
+    >
       <div className="flex flex-col gap-2 text-center justify-center items-center mb-20">
         <h2 className="text-center mb-6 font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl ">
           Preço
@@ -58,7 +67,9 @@ const Pricing = () => {
         <Card className="text-start">
           <CardHeader>
             <CardDescription className="text-xl">Pro</CardDescription>
-            <CardTitle className="text-4xl dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent">R$ 12,90</CardTitle>
+            <CardTitle className="text-4xl dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent">
+              R$ 12,90
+            </CardTitle>
             <CardDescription className="text-muted-foreground">
               Tenha mais poder criativo.
             </CardDescription>
@@ -83,12 +94,17 @@ const Pricing = () => {
               </p>
             </div>
             <Link href="/">
-              <Button variant={"outline"} className="dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent">Se torne PRO</Button>
+              <Button
+                variant={"outline"}
+                className="dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent"
+              >
+                Se torne PRO
+              </Button>
             </Link>
           </CardContent>
         </Card>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

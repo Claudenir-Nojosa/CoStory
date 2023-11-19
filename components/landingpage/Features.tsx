@@ -1,8 +1,8 @@
+"use client";
+
 import React from "react";
-import { buttonVariants } from "../ui/button";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const Features = () => {
   return (
@@ -16,7 +16,13 @@ const Features = () => {
           comunidade e da ramificação da história.
         </p>
       </div>
-      <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+      <motion.div
+        initial={{ opacity: 0, y: -100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -100 }}
+        transition={{ duration: 1.2 }}
+        className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3"
+      >
         <div className="relative overflow-hidden rounded-lg border bg-background p-2">
           <div className="flex h-[180px] flex-col justify-between rounded-md p-6 ">
             <Image
@@ -121,7 +127,7 @@ const Features = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

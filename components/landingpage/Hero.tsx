@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "../ui/button";
 import TypewriterComponent from "typewriter-effect";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
@@ -61,7 +62,13 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="mt-20">
+      <motion.div
+        initial={{ opacity: 0, y: 200, scale: 0.5 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 200, scale: 0.5 }}
+        transition={{duration: 0.5}}
+        className="mt-20 origin-center"
+      >
         <Image
           src="/assets/contribuições.png"
           alt="coStory história"
@@ -69,7 +76,7 @@ const Hero = () => {
           height={900}
           className="rounded-xl"
         />
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
+import { motion } from "framer-motion";
 
 const HowItWorks = () => {
   return (
@@ -15,7 +18,13 @@ const HowItWorks = () => {
         um espaço para você colaborar e dar vida às suas ideias.
       </p>
       <div className="mx-auto flex flex-col md:max-w-7xl md:space-y-12 mt-14">
-        <div className="flex flex-col justify-between sm:flex-row sm:space-y-0">
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 1 }}
+          className="flex flex-col justify-between sm:flex-row sm:space-y-0"
+        >
           <div className="mx-auto w-full p-6 md:w-1/2">
             <Image
               src="/assets/Criação.png"
@@ -42,8 +51,14 @@ const HowItWorks = () => {
               </li>
             </ul>
           </div>
-        </div>
-        <div className="flex flex-col justify-between sm:flex-row sm:space-y-0">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 100 }}
+          transition={{ duration: 1 }}
+          className="flex flex-col justify-between sm:flex-row sm:space-y-0"
+        >
           <div className="flex w-full flex-col items-start justify-center px-8 py-6 text-left md:w-1/2">
             <h3 className="text-xl font-semibold text-primary-muted bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text text-transparent">
               2° PASSO
@@ -71,8 +86,14 @@ const HowItWorks = () => {
               className="rounded-xl hidden md:flex"
             />
           </div>
-        </div>
-        <div className="flex flex-col justify-between sm:flex-row sm:space-y-0">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 1 }}
+          className="flex flex-col justify-between sm:flex-row sm:space-y-0"
+        >
           <div className="mx-auto w-full p-6 md:w-1/2">
             <Image
               src="/assets/historias.png"
@@ -94,11 +115,12 @@ const HowItWorks = () => {
                 Há a possibilidade de criar/editar/colaborar
               </li>
               <li className="text-muted-foreground flex items-center font-light">
-                Caso tenha gostado bastante da história, você pode também favorita-la.
+                Caso tenha gostado bastante da história, você pode também
+                favorita-la.
               </li>
             </ul>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
