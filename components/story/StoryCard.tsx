@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react";
 import { db } from "@/lib/prismadb";
 import { toast } from "sonner";
 import { Heart } from "lucide-react";
+import Loading from "../shared/Loading";
 
 interface StoryCardProps {
   story: {
@@ -135,7 +136,9 @@ const StoryCard: FC<StoryCardProps> = ({ story }) => {
       <CardHeader>
         <CardTitle className="mb-5 font-bold">{title}</CardTitle>
         <CardDescription className="flex  gap-2 justify-center items-center text-center">
-          <Badge variant="outline">{categoryIcon}</Badge>
+          <Badge variant="outline">
+            {isLoadingCategories ? <Loading /> : categoryIcon}
+          </Badge>
           <Badge
             variant="outline"
             className={`${
