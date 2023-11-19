@@ -38,3 +38,11 @@ export const UserSchema = z.object({
   email: z.string().optional(),
   image: z.string().optional(),
 });
+export const ResetPasswordSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Insira seu e-mail" })
+    .refine((email) => email.includes("@"), {
+      message: "Insira um e-mail válido",
+    }),
+});

@@ -167,13 +167,6 @@ const UserEdit: FC<EditUserProps> = ({ params }) => {
             )}
           />
           <div className="flex justify-between items-center gap-3">
-            <Link
-              href=""
-              className="hover:underline text-sm text-muted-foreground"
-            >
-              Esqueci a senha
-            </Link>
-
             <Button variant="outline" type="submit">
               Editar
             </Button>

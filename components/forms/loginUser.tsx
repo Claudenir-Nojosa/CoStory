@@ -114,20 +114,30 @@ const LoginForm = () => {
             Continue
           </Button>
           <p className="text-center text-sm">
-            Não tem uma conta?
+            Esqueceu a senha?
             <Link
               className="text-muted-foreground hover:underline ml-2"
-              href="/register"
+              href="/forgot-password"
             >
-              Registrar
+              Alterar senha
             </Link>
           </p>
+
         </form>
 
         <div className="flex flex-col w-full justify-center items-center">
           <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-muted-foreground after:ml-4 after:block after:h-px after:flex-grow after:bg-muted-foreground">
             ou
           </div>
+          <p className="text-center text-sm">
+            Não tem uma conta?
+            <Link
+              className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-600 via-orange-600 to-rose-700 bg-clip-text text-transparent hover:underline ml-2"
+              href="/register"
+            >
+              Registrar
+            </Link>
+          </p>
           <div className="gap-3 flex flex-col mt-6 w-full">
             <Button variant="outline" onClick={githubSignInHandler}>
               <div className="flex gap-5 w-full items-center">
