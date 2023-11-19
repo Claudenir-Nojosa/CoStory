@@ -59,7 +59,7 @@ const Pricing = () => {
                 Ajuda de inteligência artificial ilimitada
               </p>
             </div>
-            <Link href="/">
+            <Link href="/login">
               <Button variant={"outline"}>Comece agora</Button>
             </Link>
           </CardContent>

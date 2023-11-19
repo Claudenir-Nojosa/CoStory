@@ -33,7 +33,7 @@ export function NavBar() {
       initial={{ top: -100 }}
       animate={{ top: 0 }}
       transition={{ duration: 0.5 }}
-      className="navbar justify-between "
+      className="navbar justify-between"
     >
       {session.status === "authenticated" ? (
         <div className="text-transparent">.</div>

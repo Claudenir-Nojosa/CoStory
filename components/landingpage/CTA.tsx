@@ -13,7 +13,7 @@ const CTA = () => {
         Junte-se a nossa comunidade e liberte sua criatividade criando e
         contribuindo com histórias cativantes. Comece agora!
       </p>
-      <Link href="/">
+      <Link href="/register">
         <Button
           variant={"ghost"}
           className="mt-10 dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent text-xl"

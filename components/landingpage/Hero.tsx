@@ -7,8 +7,17 @@ import TypewriterComponent from "typewriter-effect";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Link as Scrolllink } from "react-scroll";
 
 const Hero = () => {
+  const scrollToSection = (sectionId:any) => {
+    const sectionElement = document.getElementById(sectionId);
+
+    // Verifique se o elemento foi encontrado antes de chamar métodos
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <div className="mx-4 mb-14 mt-6 flex flex-1 flex-col items-center text-center sm:mb-12 md:mb-32 md:mt-20">
       <span className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text text-transparent font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
@@ -35,12 +44,15 @@ const Hero = () => {
         plataforma colaborativa e inspiradora.
       </p>
       <div className="mt-10 flex max-w-4xl flex-col flex-wrap items-center justify-center gap-6 sm:w-full sm:flex-row">
-        <Link href="/">
+        <a
+          onClick={() => scrollToSection("how-it-works")}
+          style={{ cursor: "pointer" }}
+        >
           <Button variant={"outline"}>
             Saiba mais <ArrowDown className="ml-2 h-5 w-5" />
           </Button>
-        </Link>
-        <Link href="/">
+        </a>
+        <Link href="/login">
           <Button>
             Comece agora <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
@@ -66,7 +78,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 200, scale: 0.5 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 200, scale: 0.5 }}
-        transition={{duration: 0.5}}
+        transition={{ duration: 0.5 }}
         className="mt-20 origin-center"
       >
         <Image

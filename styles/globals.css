@@ -49,7 +49,7 @@
   }
 
   .navbar {
-    @apply sticky top-0 right-0 z-20 flex justify-between py-5 px-20 backdrop-blur-sm;
+    @apply sticky top-0 right-0 z-20 flex justify-between py-5 px-10 md:px-20 backdrop-blur-sm;
   }
 
   .leftsidebar {

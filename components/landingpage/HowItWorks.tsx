@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const HowItWorks = () => {
   return (
-    <div className="py-24 flex flex-col items-center">
+    <section id="how-it-works" className="py-24 flex flex-col items-center">
       <h2 className="mb-5 text-center font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
         Como funciona
       </h2>
@@ -77,13 +77,13 @@ const HowItWorks = () => {
               </li>
             </ul>
           </div>
-          <div className="mx-auto w-full p-6 md:w-1/2">
+          <div className="mx-auto w-full p-6 md:w-1/2 hidden md:flex">
             <Image
               src="/assets/edit.png"
               alt="Edição de história"
               width={880}
               height={880}
-              className="rounded-xl hidden md:flex"
+              className="rounded-xl "
             />
           </div>
         </motion.div>
@@ -94,16 +94,16 @@ const HowItWorks = () => {
           transition={{ duration: 1 }}
           className="flex flex-col justify-between sm:flex-row sm:space-y-0"
         >
-          <div className="mx-auto w-full p-6 md:w-1/2">
+          <div className="mx-auto w-full p-6 md:w-1/2 hidden md:flex">
             <Image
               src="/assets/historias.png"
               alt="Histórias"
               width={880}
               height={880}
-              className="rounded-xl hidden md:flex"
+              className="rounded-xl "
             />
           </div>
-          <div className="flex w-full flex-col items-start justify-center px-20 py-6 text-left md:w-1/2">
+          <div className="flex w-full flex-col items-start justify-center px-8 py-6 text-left md:w-1/2">
             <h3 className="text-xl font-semibold text-primary-muted bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text text-transparent">
               3° PASSO
             </h3>
@@ -122,7 +122,7 @@ const HowItWorks = () => {
           </div>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
