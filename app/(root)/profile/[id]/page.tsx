@@ -13,6 +13,7 @@ const page: FC<pageProps> = async ({ params }) => {
   return (
     <div>
       <UserEdit params={params} />
+      {/* Adicionar premium */}
     </div>
   );
 };
