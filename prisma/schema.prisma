@@ -12,22 +12,26 @@ datasource db {
 }
 
 model User {
-  id               String        @id @default(auto()) @map("_id") @db.ObjectId
-  name             String?
-  email            String?       @unique
-  emailVerified    DateTime?
-  image            String?
-  hashedPassword   String?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  accounts         Account[]
-  Session          Session[]
-  Contributor      Contributor[]
-  Favorite         Favorite[]
-  Story            Story[]
-  storyId          String?       @db.ObjectId
-  resetToken       String?
-  resetTokenExpiry DateTime?     @default(now())
+  id                     String        @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String?
+  email                  String?       @unique
+  emailVerified          DateTime?
+  image                  String?
+  hashedPassword         String?
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  accounts               Account[]
+  Session                Session[]
+  Contributor            Contributor[]
+  Favorite               Favorite[]
+  Story                  Story[]
+  storyId                String?       @db.ObjectId
+  resetToken             String?
+  resetTokenExpiry       DateTime?     @default(now())
+  stripeCustomerId       String?       @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?       @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?       @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime?     @map(name: "stripe_current_period_end")
 }
 
 model Account {
