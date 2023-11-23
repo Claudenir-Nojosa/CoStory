@@ -12,10 +12,6 @@ interface Session {
 export async function getUserSubscriptionPlan() {
   const session = await auth() as Session
 
-  if (!session || !session.user) {
-    throw new Error("User not found.");
-  }
-
   const user = await db.user.findFirst({
     where: {
       id: session.user.id,
