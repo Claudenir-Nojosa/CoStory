@@ -1,43 +1,53 @@
+import { headers } from "next/headers";
+import Stripe from "stripe";
 import { db } from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
-import { headers } from "next/headers";
-import type Stripe from "stripe";
+import { auth } from "@/lib/auth";
 
-export async function POST(request: Request) {
-  const body = await request.text();
-  const signature = headers().get("Stripe-Signature") ?? "";
+interface Session {
+  user: {
+    id: string;
+  };
+}
+
+export async function POST(req: Request) {
+  const body = await req.text();
+  const UserSession = (await auth()) as Session;
+  const signature = headers().get("Stripe-Signature") as string;
 
   let event: Stripe.Event;
 
+  const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!stripeWebhookSecret) {
+    return new Response("Webhook Error: Stripe webhook secret is undefined", {
+      status: 400,
+    });
+  }
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET || ""
+      stripeWebhookSecret
     );
-  } catch (err) {
-    return new Response(
-      `Webhook Error: ${err instanceof Error ? err.message : "Unknown Error"}`,
-      { status: 400 }
-    );
+  } catch (error: any) {
+    return new Response(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
-
-  if (!session?.metadata?.userId) {
-    return new Response(null, {
-      status: 200,
-    });
-  }
-
+  console.log(session?.metadata?.userId);
   if (event.type === "checkout.session.completed") {
+    // Retrieve the subscription details from Stripe.
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     );
 
+    // Update the user stripe into in our database.
+    // Since this is the initial subscription, we need to update
+    // the subscription id and customer id.
     await db.user.update({
       where: {
-        id: session.metadata.userId,
+        id: UserSession.user.id,
       },
       data: {
         stripeSubscriptionId: subscription.id,
@@ -55,7 +65,7 @@ export async function POST(request: Request) {
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     );
-    console.log(subscription.id);
+
     // Update the price id and set the new period end.
     await db.user.update({
       where: {

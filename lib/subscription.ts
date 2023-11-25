@@ -1,52 +1,39 @@
-import { storeSubscriptionPlans } from "@/config/subscription";
-import { db } from "./prismadb";
-import { stripe } from "./stripe";
-import { auth } from "./auth";
+// @ts-nocheck
+// TODO: Fix this when we turn strict mode on.
+import { UserSubscriptionPlan } from "types"
+import { freePlan, proPlan } from "@/config/subscriptions"
+import { db } from "./prismadb"
 
-interface Session {
-  user: {
-    id: string;
-  };
-}
-
-export async function getUserSubscriptionPlan() {
-  const session = await auth() as Session
-
+export async function getUserSubscriptionPlan(
+  userId: string
+): Promise<UserSubscriptionPlan> {
   const user = await db.user.findFirst({
     where: {
-      id: session.user.id,
+      id: userId,
     },
-  });
+    select: {
+      stripeSubscriptionId: true,
+      stripeCurrentPeriodEnd: true,
+      stripeCustomerId: true,
+      stripePriceId: true,
+    },
+  })
 
   if (!user) {
-    throw new Error("User not found.");
+    throw new Error("User not found")
   }
 
-  const isSubscribed =
+  // Check if user is on a pro plan.
+  const isPro =
     user.stripePriceId &&
-    user.stripeCurrentPeriodEnd &&
-    user.stripeCurrentPeriodEnd.getTime() + 86_400_000 > Date.now();
+    user.stripeCurrentPeriodEnd?.getTime() + 86_400_000 > Date.now()
 
-  const plan = isSubscribed
-    ? storeSubscriptionPlans.find(
-      (plan:any) => plan.stripePriceId === user.stripePriceId,
-    )
-    : null;
-
-  let isCanceled = false;
-  if (isSubscribed && user.stripeSubscriptionId) {
-    const stripePlan = await stripe.subscriptions.retrieve(
-      user.stripeSubscriptionId,
-    );
-    isCanceled = stripePlan.cancel_at_period_end;
-  }
+  const plan = isPro ? proPlan : freePlan
 
   return {
     ...plan,
-    stripeSubscriptionId: user.stripeSubscriptionId,
-    stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd,
-    stripeCustomerId: user.stripeCustomerId,
-    isSubscribed,
-    isCanceled,
-  };
+    ...user,
+    stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd?.getTime(),
+    isPro,
+  }
 }

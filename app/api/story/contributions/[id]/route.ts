@@ -13,10 +13,6 @@ export async function PATCH(req: Request, context: contextProps) {
     const { params } = context;
     const body = await req.json();
 
-    console.log("Request Body:", body);
-
-    console.log("isAccepted:", body.isAccepted);
-
     await db.contributor.update({
       where: {
         id: params.id,

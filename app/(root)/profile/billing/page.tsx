@@ -1,62 +1,65 @@
-import { ManageUserSubscriptionButton } from "@/components/billing/ManageUserSubscription";
-import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation"
+import { getCurrentUser } from "@/lib/session"
+import { stripe } from "@/lib/stripe"
+import { getUserSubscriptionPlan } from "@/lib/subscription"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Card,
+  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { storeSubscriptionPlans } from "@/config/subscription";
-import { auth } from "@/lib/auth";
-import { getUserSubscriptionPlan } from "@/lib/subscription";
-import { signIn } from "next-auth/react";
+} from "@/components/ui/card"
+import { BillingForm } from "@/components/shared/billing-form"
+import { DashboardHeader } from "@/components/shared/header"
+import { DashboardShell } from "@/components/shared/shell"
+import { FileWarningIcon } from "lucide-react"
+import { auth } from "@/lib/auth"
 
-export default async function Billing() {
-  const session = await auth();
-  const subscriptionPlan = await getUserSubscriptionPlan();
+interface Session {
+  user: {
+    id: string;
+    email: string;
+  };
+}
+
+export const metadata = {
+  title: "Billing",
+  description: "Manage billing and your subscription plan.",
+}
+
+export default async function BillingPage() {
+  const user = await auth() as Session;
+
+  if (!user) {
+    redirect("/login")
+  }
+
+  const subscriptionPlan = await getUserSubscriptionPlan(user.user.id)
+
+  // If user has a pro plan, check cancel status on Stripe.
+  let isCanceled = false
+  if (subscriptionPlan.isPro && subscriptionPlan.stripeSubscriptionId) {
+    const stripePlan = await stripe.subscriptions.retrieve(
+      subscriptionPlan.stripeSubscriptionId
+    )
+    isCanceled = stripePlan.cancel_at_period_end
+  }
 
   return (
-    <div className="min-h-[calc(100vh-57px)] py-8 px-4 md:px-16 lg:px-24">
-      <Card className="p-6 mb-2">
-        <p className="text-lg font-semibold leading-none">
-          {subscriptionPlan.name}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          {!subscriptionPlan.isSubscribed
-            ? "You are not subscribed to any plan."
-            : subscriptionPlan.isCanceled
-            ? "Your plan will be canceled on "
-            : "Your plan renews on "}
-          {subscriptionPlan?.stripeCurrentPeriodEnd
-            ? subscriptionPlan.stripeCurrentPeriodEnd.toLocaleDateString()
-            : null}
-        </p>
-      </Card>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {storeSubscriptionPlans.map((plan: any) => (
-          <Card key={plan.id}>
-            <CardHeader>
-              <CardTitle>{plan.name}</CardTitle>
-              <CardDescription>{plan.description}</CardDescription>
-            </CardHeader>
-            <CardFooter className="flex items-end">
-              {session?.user ? (
-                <ManageUserSubscriptionButton
-                  userId={session.user.id as string}
-                  email={session.user.email as string}
-                  stripePriceId={plan.stripePriceId}
-                  stripeCustomerId={subscriptionPlan?.stripeCustomerId}
-                  isSubscribed={!!subscriptionPlan.isSubscribed}
-                  isCurrentPlan={subscriptionPlan?.name === plan.name}
-                />
-              ) : (
-                <Button onClick={() => signIn()}>ss</Button>
-              )}
-            </CardFooter>
-          </Card>
-        ))}
+    <DashboardShell>
+      <DashboardHeader
+        heading="Billing"
+        text="Manage billing and your subscription plan."
+      />
+      <div className="grid gap-8">
+        <BillingForm
+          subscriptionPlan={{
+            ...subscriptionPlan,
+            isCanceled,
+          }}
+        />
       </div>
-    </div>
-  );
+    </DashboardShell>
+  )
 }
