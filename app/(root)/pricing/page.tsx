@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
 export const metadata = {
-  title: "Pricing",
+  title: "Preços",
 };
 
 export default function PricingPage() {
