@@ -58,6 +58,7 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify({ url: stripeSession.url }))
   } catch (error) {
+    console.error('Error in GET request:', error);
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }

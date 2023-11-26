@@ -68,6 +68,7 @@ const LoginForm = () => {
 
       if (res?.error == null) {
         router.push("/");
+        router.refresh();
       }
     } catch (error) {
       console.log(error);
@@ -122,7 +123,6 @@ const LoginForm = () => {
               Alterar senha
             </Link>
           </p>
-
         </form>
 
         <div className="flex flex-col w-full justify-center items-center">

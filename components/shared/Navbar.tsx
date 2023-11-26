@@ -57,14 +57,17 @@ export function NavBar() {
                   <Link href={`/profile/${session.data.user.id}`}>
                     <Avatar>
                       <AvatarImage src={session.data.user.image} />
-                      <AvatarFallback>
-                        {typeof session.data.user.name === "string"
-                          ? session.data.user.name.charAt(0).toUpperCase()
-                          : ""}
-                      </AvatarFallback>
                     </Avatar>
                   </Link>
-                ) : null}
+                ) : (
+                  <Avatar>
+                    <AvatarFallback>
+                      {typeof session.data.user.name === "string"
+                        ? session.data.user.name.charAt(0).toUpperCase()
+                        : ""}
+                    </AvatarFallback>
+                  </Avatar>
+                )}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 {session.data.user.name &&
@@ -81,6 +84,7 @@ export function NavBar() {
                 <Separator />
                 <ul>
                   <ListItem href="/">Pagina inicial</ListItem>
+                  <ListItem href="/pricing">Preços</ListItem>
                   <ListItem href={`/profile/${session.data.user.id}`}>
                     Configurações
                   </ListItem>

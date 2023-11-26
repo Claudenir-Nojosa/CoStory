@@ -24,8 +24,8 @@ interface Session {
 }
 
 export const metadata = {
-  title: "Billing",
-  description: "Manage billing and your subscription plan.",
+  title: "Cobrança",
+  description: "Gerencie o faturamento e seu plano de assinatura.",
 }
 
 export default async function BillingPage() {
@@ -49,8 +49,8 @@ export default async function BillingPage() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Billing"
-        text="Manage billing and your subscription plan."
+        heading="Mensalidade"
+        text="Gerencie sua mensalidade e seu plano de assinatura."
       />
       <div className="grid gap-8">
         <BillingForm

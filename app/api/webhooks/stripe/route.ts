@@ -12,7 +12,7 @@ interface Session {
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const UserSession = (await auth()) as Session;
+  const userSession = await auth() as Session;
   const signature = headers().get("Stripe-Signature") as string;
 
   let event: Stripe.Event;
@@ -20,6 +20,7 @@ export async function POST(req: Request) {
   const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!stripeWebhookSecret) {
+    console.log("Sem")
     return new Response("Webhook Error: Stripe webhook secret is undefined", {
       status: 400,
     });
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
       stripeWebhookSecret
     );
   } catch (error: any) {
+    console.error("Webhook Error:", error.message);
     return new Response(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
@@ -47,7 +49,7 @@ export async function POST(req: Request) {
     // the subscription id and customer id.
     await db.user.update({
       where: {
-        id: UserSession.user.id,
+        id: session?.metadata?.userId,
       },
       data: {
         stripeSubscriptionId: subscription.id,
@@ -79,6 +81,5 @@ export async function POST(req: Request) {
       },
     });
   }
-
   return new Response(null, { status: 200 });
 }

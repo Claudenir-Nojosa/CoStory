@@ -68,7 +68,7 @@ const Pricing = () => {
           <CardHeader>
             <CardDescription className="text-xl">Pro</CardDescription>
             <CardTitle className="text-4xl dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent">
-              R$ 12,90
+              R$ 7,90
             </CardTitle>
             <CardDescription className="text-muted-foreground">
               Tenha mais poder criativo.
@@ -93,7 +93,7 @@ const Pricing = () => {
                 Ajuda de inteligência artificial ilimitada
               </p>
             </div>
-            <Link href="/">
+            <Link href="/pricing">
               <Button
                 variant={"outline"}
                 className="dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-700 via-orange-300 to-rose-800 bg-clip-text dark:text-transparent"

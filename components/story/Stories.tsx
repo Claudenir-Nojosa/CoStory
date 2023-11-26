@@ -27,10 +27,16 @@ const Stories = () => {
   return (
     <div>
       <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 font-bold text-center">
-        {dataStories?.map((story) => (
-          <StoryCard key={story.id} story={story} />
-        ))}
-      </div>
+      {dataStories?.length === 0 ? (
+          <p className="text-2xl font-semibold text-muted-foreground">
+            Ops, como está vazio aqui...
+          </p>
+        ) : (
+          dataStories?.map((story) => (
+            <StoryCard key={story.id} story={story} />
+          ))
+        )}
+      </div>     
     </div>
   );
 };

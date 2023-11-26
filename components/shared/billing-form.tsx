@@ -53,10 +53,10 @@ export function BillingForm({
     <form className={cn(className)} onSubmit={onSubmit} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Subscription Plan</CardTitle>
+          <CardTitle>Plano de assinatura</CardTitle>
           <CardDescription>
-            You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
-            plan.
+            Você está atualmente no plano{" "}
+            <strong>{subscriptionPlan.name}</strong>.
           </CardDescription>
         </CardHeader>
         <CardContent>{subscriptionPlan.description}</CardContent>
@@ -67,13 +67,13 @@ export function BillingForm({
             disabled={isLoading}
           >
             {isLoading && <Loading />}
-            {subscriptionPlan.isPro ? "Manage Subscription" : "Upgrade to PRO"}
+            {subscriptionPlan.isPro ? "Gerenciar Assinatura" : "Faça o upgrade para o PRO"}
           </button>
           {subscriptionPlan.isPro ? (
             <p className="rounded-full text-xs font-medium">
               {subscriptionPlan.isCanceled
-                ? "Your plan will be canceled on "
-                : "Your plan renews on "}
+                ? "Seu plano será cancelado em "
+                : "Seu plano será renovado em "}
               {formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.
             </p>
           ) : null}
