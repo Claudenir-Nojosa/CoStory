@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 
 const Page = async () => {
   const session: any = await auth();
-
+/* Going to add mobile app */
   return (
     <section>
       {!session?.user ? (
