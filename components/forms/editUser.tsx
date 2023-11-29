@@ -68,11 +68,11 @@ const UserEdit: FC<EditUserProps> = ({ params }) => {
   }
 
   return (
-    <div className=" flex flex-col items-start justify-start max-w-2xl text-start p-6">
+    <div className=" flex flex-col items-center md:items-start mb-24 justify-start max-w-2xl text-start p-6">
       <Form {...form}>
         <h1 className="text-3xl font-bold mb-10">Editar Usuário</h1>
         {typeof session?.user.image === "string" && (
-          <div className="flex mb-10 ml-14 items-center justify-center text-center">
+          <div className="flex mb-10 md:ml-14 items-center justify-center text-center">
             <Image
               src={session.user.image}
               alt="Usuário"
@@ -166,7 +166,7 @@ const UserEdit: FC<EditUserProps> = ({ params }) => {
               </FormItem>
             )}
           />
-          <div className="flex justify-between items-center gap-3">
+          <div className="flex justify-end items-center gap-3">
             <Button variant="outline" type="submit">
               Editar
             </Button>

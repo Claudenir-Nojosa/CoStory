@@ -36,7 +36,7 @@ export function NavBar() {
       className="navbar justify-between"
     >
       {session.status === "authenticated" ? (
-        <div className="text-transparent">.</div>
+        <div className="invisible"/>
       ) : (
         <NavigationMenu>
           <Link href="/">
@@ -44,7 +44,7 @@ export function NavBar() {
           </Link>
         </NavigationMenu>
       )}
-      <NavigationMenu>
+      <NavigationMenu className="mr-4">
         <NavigationMenuList className="flex gap-3">
           <NavigationMenuItem>
             <ToggleTheme />
@@ -76,7 +76,7 @@ export function NavBar() {
                   <div className="text-sm p-4">
                     <p className="text-muted-foreground mb-2">Logado em</p>
                     <p>{session.data.user.name}</p>
-                    <p>{session.data.user.email}</p>
+                    <p className="hidden md:flex">{session.data.user.email}</p>
                   </div>
                 ) : (
                   ""

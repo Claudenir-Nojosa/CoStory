@@ -49,7 +49,7 @@ const FavoriteStories = () => {
             ))}
           </div>
         ) : (
-          <p className="text-2xl font-semibold text-muted-foreground">
+          <p className="md:text-2xl text-lg font-semibold text-muted-foreground">
             Ops, como está vazio aqui...
           </p>
         )}

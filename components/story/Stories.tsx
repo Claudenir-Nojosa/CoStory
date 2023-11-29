@@ -28,7 +28,7 @@ const Stories = () => {
     <div>
       <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 font-bold text-center">
       {dataStories?.length === 0 ? (
-          <p className="text-2xl font-semibold text-muted-foreground">
+          <p className="md:text-2xl text-lg font-semibold text-muted-foreground">
             Ops, como está vazio aqui...
           </p>
         ) : (
