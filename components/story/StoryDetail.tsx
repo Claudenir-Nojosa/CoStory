@@ -70,8 +70,8 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
     ) ?? false;
 
   return (
-    <MaxWidthWrapper className="flex gap-10">
-      <Card className="w-3/4">
+    <MaxWidthWrapper className="grid grid-cols-1 md:grid-cols-2 gap-10 px-10 md:px-0">
+      <Card >
         <CardHeader>
           <div className="flex justify-end">
             {story?.User.image && (
@@ -190,7 +190,7 @@ const StoryDetailPage: FC<StoryDetailPageProps> = async ({ params }) => {
         </CardContent>
         <CardFooter className="mt-8 text-gray-500"></CardFooter>
       </Card>
-      <div className="w-1/3">
+      <div className="w-2/3 ml-10 pl-0 sm:ml-20 mb-28">
         <Contributions />
       </div>
     </MaxWidthWrapper>

@@ -221,11 +221,8 @@ export default function Tiptap({
         >
           {loading ? <Loading /> : "Gerar foto de capa"}
         </Button>
-      </div>
-      <div className="flex items-start gap-2">
-        <Toolbar editor={editor} />
         <Popover>
-          <PopoverTrigger className="ml-20">
+          <PopoverTrigger>
             {AILoading ? <Loading /> : <Bot />}
           </PopoverTrigger>
           <PopoverContent className="flex flex-col w-fit gap-4">
@@ -245,6 +242,10 @@ export default function Tiptap({
             </Button>
           </PopoverContent>
         </Popover>
+      </div>
+      <div className="flex items-start gap-2">
+        <Toolbar editor={editor} />
+        
       </div>
       <EditorContent editor={editor} />
     </div>

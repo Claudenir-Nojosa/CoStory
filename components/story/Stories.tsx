@@ -26,7 +26,7 @@ const Stories = () => {
 
   return (
     <div>
-      <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 font-bold text-center">
+      <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 font-bold text-center p-8 mb-10 sm:mb-20 md:mb-0 mt-[-40px]">
       {dataStories?.length === 0 ? (
           <p className="md:text-2xl text-lg font-semibold text-muted-foreground">
             Ops, como está vazio aqui...

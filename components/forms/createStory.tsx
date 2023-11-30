@@ -194,7 +194,7 @@ export const StoryForm: FC<FormStoryProps> = ({
 
   console.log("Image value:", generatedImage);
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 px-10 gap-3 mb-14">
       <div>
         <div className="flex justify-center items-center gap-10">
           <h1 className="text-4xl font-bold mb-7">
@@ -289,12 +289,12 @@ export const StoryForm: FC<FormStoryProps> = ({
                         <Input
                           type="text"
                           {...field}
-                          value={generatedImage} 
+                          value={generatedImage}
                           onChange={(e) => {
-                            field.onChange(e); 
+                            field.onChange(e);
                             setRealTimeData({
                               ...realTimeData,
-                              coverImage: generatedImage, 
+                              coverImage: generatedImage,
                             });
                           }}
                           className="hidden"
@@ -405,8 +405,16 @@ export const StoryForm: FC<FormStoryProps> = ({
                 </FormItem>
               )}
             />
-            <div className="flex justify-center items-center">
-              <Button variant="outline" type="submit" className="w-full">
+            <div className="flex flex-col gap-3 justify-center items-center">
+              <Button
+                variant="outline"
+                type="button"
+                className="w-full"
+                onClick={() => router.back()}
+              >
+                Voltar
+              </Button>
+              <Button variant="default" type="submit" className="w-full">
                 {isEditing && !isCollaboration
                   ? "Editar"
                   : isCollaboration && isEditing
@@ -417,7 +425,7 @@ export const StoryForm: FC<FormStoryProps> = ({
           </form>
         </Form>
       </div>
-      <div className="dotted">
+      <div className="dotted hidden sm:flex sm:flex-col">
         <StoryPreview
           title={realTimeData.title || ""}
           content={realTimeData.content || ""}

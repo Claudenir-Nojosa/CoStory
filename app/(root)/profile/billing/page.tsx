@@ -47,7 +47,7 @@ export default async function BillingPage() {
   }
 
   return (
-    <DashboardShell>
+    <DashboardShell className="px-6">
       <DashboardHeader
         heading="Mensalidade"
         text="Gerencie sua mensalidade e seu plano de assinatura."

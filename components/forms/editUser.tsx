@@ -68,7 +68,7 @@ const UserEdit: FC<EditUserProps> = ({ params }) => {
   }
 
   return (
-    <div className=" flex flex-col items-center md:items-start mb-24 justify-start max-w-2xl text-start p-6">
+    <div className=" flex flex-col items-center md:items-start mb-10 mt-[-40px] justify-start max-w-2xl text-start p-6">
       <Form {...form}>
         <h1 className="text-3xl font-bold mb-10">Editar Usuário</h1>
         {typeof session?.user.image === "string" && (

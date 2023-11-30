@@ -31,7 +31,7 @@ const FavoriteStories = () => {
 
   return (
     <div>
-      <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+      <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-4 font-bold text-center p-8 mb-10 sm:mb-20 md:mb-0 mt-[-40px]">
         {dataFavoritesTyped?.favorites.length > 0 ? (
           <div>
             {dataFavoritesTyped?.favorites.map((favorite: any) => (
