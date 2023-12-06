@@ -1,19 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoginSchema } from "@/lib/validation/auth";
 import { toast } from "sonner";
 import Loading from "../shared/Loading";
 import { Github } from "lucide-react";
+import Image from "next/image";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -30,7 +31,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
-
+  const router = useRouter();
   async function onSubmit(data: FormData) {
     setIsLoading(true);
 
@@ -48,7 +49,26 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     return toast.error("Deu erro");
   }
-
+  const githubSignInHandler = async () => {
+    try {
+      const res = await signIn("github");
+      if (res?.error == null) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const googleSignInHandler = async () => {
+    try {
+      const res = await signIn("google");
+      if (res?.error == null) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,9 +94,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
           <button className={cn(buttonVariants())} disabled={isLoading}>
-            {isLoading && (
-              <Loading />
-            )}
+            {isLoading && <Loading />}
             Sign In with Email
           </button>
         </div>
@@ -91,22 +109,27 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGitHubLoading(true);
-          signIn("github");
-        }}
-        disabled={isLoading || isGitHubLoading}
-      >
-        {isGitHubLoading ? (
-          <Loading />
-        ) : (
-          <Github />
-        )}{" "}
-        Github
-      </button>
+      <Button variant="outline" onClick={githubSignInHandler}>
+        <div className="flex gap-5 w-full items-center">
+          <Image src="/assets/github.svg" alt="Github" height={25} width={25} />
+          <p>Continue com Github</p>
+        </div>
+      </Button>
+      <Button
+              className=""
+              variant="outline"
+              onClick={googleSignInHandler}
+            >
+              <div className="flex gap-5 w-full items-center">
+                <Image
+                  src="/assets/google.svg"
+                  alt="Google"
+                  height={25}
+                  width={25}
+                />
+                <p>Continue com Google</p>
+              </div>
+            </Button>
     </div>
   );
 }

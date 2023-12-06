@@ -14,6 +14,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./prismadb";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import Stripe from "stripe";
 
 declare module "next-auth/jwt" {
   interface JWT {
@@ -107,6 +108,27 @@ export const authOptions: NextAuthOptions = {
       };
     },
   },
+  events:{
+    createUser: async ({ user }) => {
+
+      const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
+        apiVersion: "2023-10-16",
+      });
+
+      await stripe.customers.create({
+        email: user.email!,
+        name: user.name!,
+      })
+      .then( async (customer) => {
+        return db.user.update({
+          where: { id: user.id },
+          data: {
+            stripeCustomerId: customer.id,
+          },
+        });
+      })
+    }
+  }
 } satisfies NextAuthConfig;
 
 // Helper function to get session without passing config every time
