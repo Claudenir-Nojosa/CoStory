@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { RegisterSchema } from "@/lib/validation/auth";
 import { useEffect } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
 const RegisterForm = () => {
   const session = useSession();
   const router = useRouter();
@@ -56,9 +57,14 @@ const RegisterForm = () => {
           },
         }
       );
-
+      if (response.status == 200) {
+        router.push("/login");
+        toast.success("Cadastro realizado com sucesso")
+        router.refresh();
+      } else {
+        toast.error("Erro ao realizar cadastro")
+      }
       const user = response.data;
-      router.push("/login");
     } catch (error) {
       console.error("Error registering user:", error);
     }

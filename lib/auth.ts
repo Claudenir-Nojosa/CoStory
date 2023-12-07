@@ -15,6 +15,7 @@ import { db } from "./prismadb";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Stripe from "stripe";
+import { v4 as uuidv4 } from 'uuid';
 
 declare module "next-auth/jwt" {
   interface JWT {

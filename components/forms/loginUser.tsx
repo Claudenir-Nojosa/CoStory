@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { LoginSchema } from "@/lib/validation/auth";
 import Image from "next/image";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const session = useSession();
@@ -58,7 +59,6 @@ const LoginForm = () => {
   };
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
     try {
       const res = await signIn("credentials", {
         email: values.email,
@@ -68,7 +68,10 @@ const LoginForm = () => {
 
       if (res?.error == null) {
         router.push("/");
+        toast.success("Login realizado com sucesso")
         router.refresh();
+      } else {
+        toast.error("Erro ao realizar login")
       }
     } catch (error) {
       console.log(error);

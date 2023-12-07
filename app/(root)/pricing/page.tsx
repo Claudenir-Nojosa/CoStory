@@ -46,12 +46,12 @@ export default function PricingPage() {
               Cobrado mensalmente
             </p>
           </div>
-          <Link
-            href="/profile/billing"
-            className={cn(buttonVariants({ size: "lg" }))}
-          >
-            Comece agora!
-          </Link>
+          <div className={cn(buttonVariants({ size: "lg" }))}>
+            <div className="flex flex-col">
+              <p> Comece agora!</p>
+              <p>*Em desenvolvimento</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
